@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout android:id="@+id/layout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#EE501B"
+        android:gravity="center"
+        android:orientation="vertical">
+        <TextView android:id="@+id/lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Draggable Text"
+            android:textSize="20sp" />
+        <ImageView android:id="@+id/ingvw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher" />
+        <Button android:id="@+id/btnDrag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Draggable Button" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/layout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#00ADEF"
+        android:gravity="center"
+        android:orientation="vertical" />
+    <LinearLayout android:id="@+id/layout3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#80CC28"
+        android:gravity="center"
+        android:orientation="vertical" />
+</LinearLayout>
