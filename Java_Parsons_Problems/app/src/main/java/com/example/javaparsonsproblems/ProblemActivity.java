@@ -4,9 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ClipData;
 import android.content.ClipDescription;
-import android.content.Context;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
@@ -23,6 +21,8 @@ import java.util.Random;
 
 public class ProblemActivity extends AppCompatActivity implements View.OnDragListener, View.OnLongClickListener {
 
+    static ParsonsProblem instanceProblem;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +35,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         //eventually, you should use extras to pass the topic and user skill from main
         // activity to problem activity
         ParsonsProblem pp = generateProblem("IO", 1, 1);
+        instanceProblem = pp;
         displayProblem(pp);
 
         //Tag all lines as draggable
@@ -83,6 +84,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
     public boolean onDrag(View v, DragEvent event){
         int action = event.getAction();
 
+
         switch (action) {
 
             case DragEvent.ACTION_DRAG_STARTED:
@@ -109,11 +111,32 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
                 v.invalidate();
 
 
-                View vw = (View) event.getLocalState();
+                TextView vw = (TextView) event.getLocalState();
                 ViewGroup owner = (ViewGroup) vw.getParent();
                 owner.removeView(vw);
                 LinearLayout container = (LinearLayout) v;
+
                 container.addView(vw);
+
+                //Try to figure out how to allow for better sorting.
+                //Current system only allows for dropping new line at end.
+
+//                if (container.getChildCount() == 0){
+//                    container.addView(vw);
+//                } else {
+//                    int draggedX = (int) event.getX();
+//
+//                    for(int i=0;i<container.getChildCount();i++){
+//                        int containerLinePos[] = new int[2];
+//                        container.getChildAt(i).getLocationOnScreen(containerLinePos);
+//                        if(draggedX > containerLinePos[1] ){
+//                            System.out.println("Dragged line lower than i.");
+//                        } else {
+//                            container.addView(vw, i);
+//                        }
+//                    }
+//                }
+
                 vw.setVisibility(View.VISIBLE);
 
                 //Change line colour based on parent layout
@@ -129,8 +152,6 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
             case DragEvent.ACTION_DRAG_ENDED:
                 v.getBackground().clearColorFilter();
                 v.invalidate();
-
-
                 return true;
 
             default:
@@ -188,8 +209,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
 
         String problemString = "";
         try {
-            //AssetManager mgr = this.context.getAssets();
-            //InputStream in = mgr.open(filename, AssetManager.ACCESS_BUFFER);
+
             InputStream in = getAssets().open(filename);
             int size = in.available();
             byte[] buffer = new byte[size];
@@ -201,6 +221,66 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
 
         ParsonsProblem pp = new ParsonsProblem(problemString);
         return pp;
+    }
+
+    public void checkAnswer(View v){
+        // if no. lines in answer > no. lines in pp.validLines then too many lines used
+        // if no. lines in answer < no. lines in pp.validLines then not enough lines used
+        // for every line in answer layout, if answer[i] == pp.validLines.get(i)
+        // then line i is correct, else line i is wrong
+
+        // if num lines ==, and each line correct, then answer is correct
+
+        LinearLayout ansLay = findViewById(R.id.answer_layout);
+        TextView promptV = findViewById(R.id.prompt_view);
+        String promptS = instanceProblem.prompt;
+
+
+        //Check correct number of lines are used
+        if (ansLay.getChildCount() < instanceProblem.validLines.size()){
+            String newPrompt = promptS + "\n\nFEEDBACK: THE SOLUTION REQUIRES THE USE OF MORE LINES.";
+            promptV.setText(newPrompt);
+        } else if (ansLay.getChildCount() > instanceProblem.validLines.size()) {
+            String newPrompt = promptS + "\n\nFEEDBACK: THE SOLUTION REQUIRES FEWER LINES.";
+            promptV.setText(newPrompt);
+        } else{
+
+            int correctCount = 0;
+            int distractorCount = 0;
+            //Marks each line on line by line basis against lines in the validLines ArrayList
+            for (int i=0; i<instanceProblem.validLines.size(); i++){
+                TextView l1 = (TextView) ansLay.getChildAt(i);
+                CharSequence lineStr = l1.getText();
+                if (lineStr.equals(instanceProblem.validLines.get(i))){
+                    l1.setBackgroundColor(getResources().getColor(R.color.correctLine));
+                    correctCount++;
+                } else {
+                    l1.setBackgroundColor(getResources().getColor(R.color.colorLine));
+                    if (instanceProblem.distractors.contains(l1.getText())){
+                        distractorCount++;
+                    }
+                }
+            }
+
+            //Attributes message based on answer attempt
+            if (correctCount == instanceProblem.validLines.size()){
+                String newPrompt = promptS + "\n\nFEEDBACK: CONGRATULATIONS! ALL LINES ARE CORRECT.";
+                promptV.setText(newPrompt);
+            } else if (distractorCount > 0){
+                String newPrompt = promptS + "\n\nFEEDBACK: A DISTRACTOR LINE HAS BEEN USED. TRY A DIFFERENT LINE.";
+                promptV.setText(newPrompt);
+            } else {
+                String newPrompt = promptS + "\n\nFEEDBACK: CORRECT LINES USED IN WRONG ORDER.";
+                promptV.setText(newPrompt);
+            }
+        }
+
+
+
+
+
+
+
     }
 
 

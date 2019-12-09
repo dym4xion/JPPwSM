@@ -20,8 +20,6 @@ public class ParsonsProblem {
 
     public void ParseParsonTXT(String in){
 
-        //File file = new File("src/main/assets/"+filename);
-
         try{
 
             Scanner input = new Scanner(in);

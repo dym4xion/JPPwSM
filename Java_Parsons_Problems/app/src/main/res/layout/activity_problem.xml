@@ -34,6 +34,7 @@
         android:layout_marginEnd="40dp"
         android:layout_marginBottom="24dp"
         android:text="SUBMIT"
+        android:onClick="checkAnswer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
@@ -44,9 +45,10 @@
         android:id="@+id/answer_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/colorAnsSpace"
+        android:background="#A7BDFF"
         android:gravity="center"
         android:orientation="vertical"
+        android:padding="10dip"
         app:layout_constraintBottom_toTopOf="@+id/given_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,9 +57,9 @@
     <LinearLayout
         android:id="@+id/given_layout"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
-        android:background="@color/colorGivenSpace"
+        android:background="#CCCCCC"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="10dip"
@@ -69,62 +71,68 @@
         <TextView
             android:id="@+id/line_view"
             android:layout_width="match_parent"
-            android:layout_height="30dip"
+            android:layout_height="40dip"
             android:layout_margin="5dip"
             android:background="@color/colorLine"
-            android:fontFamily="sans-serif"
+            android:fontFamily="monospace"
             android:text="LINE"
             android:textAlignment="textStart"
             android:textColor="@color/colorLineText"
-            android:textSize="14sp" />
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/line_view2"
             android:layout_width="match_parent"
-            android:layout_height="30dip"
+            android:layout_height="40dip"
             android:layout_margin="5dip"
             android:background="@color/colorLine"
-            android:fontFamily="sans-serif"
+            android:fontFamily="monospace"
             android:text="ANOTHER LINE"
             android:textColor="@color/colorLineText"
-            android:textSize="14sp" />
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/line_view3"
             android:layout_width="match_parent"
-            android:layout_height="30dip"
+            android:layout_height="40dip"
             android:layout_margin="5dip"
             android:background="@color/colorLine"
-            android:fontFamily="sans-serif"
+            android:fontFamily="monospace"
             android:text="YET ANOTHER LINE"
             android:textColor="@color/colorLineText"
-            android:textSize="14sp" />
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/line_view4"
             android:layout_width="match_parent"
-            android:layout_height="30dip"
+            android:layout_height="40dip"
             android:layout_margin="5dip"
             android:background="@color/colorLine"
+            android:fontFamily="monospace"
             android:text="STILL MORE LINES"
-            android:textColor="@color/colorLineText" />
+            android:textColor="@color/colorLineText"
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/line_view5"
             android:layout_width="match_parent"
-            android:layout_height="30dip"
+            android:layout_height="40dip"
             android:layout_margin="5dip"
             android:background="@color/colorLine"
+            android:fontFamily="monospace"
             android:text="SO MANY LINES"
-            android:textColor="@color/colorLineText" />
+            android:textColor="@color/colorLineText"
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/line_view6"
             android:layout_width="match_parent"
-            android:layout_height="30dip"
+            android:layout_height="40dip"
             android:layout_margin="5dip"
             android:background="@color/colorLine"
+            android:fontFamily="monospace"
             android:text="YOU SHOULDN'T HAVE THIS MANY LINES"
-            android:textColor="@color/colorLineText" />
+            android:textColor="@color/colorLineText"
+            android:textSize="10sp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
