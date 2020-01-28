@@ -1,7 +1,6 @@
 package com.example.javaparsonsproblems;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.graphics.Color;
@@ -12,9 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import java.io.InputStream;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -22,6 +19,8 @@ import java.util.Random;
 public class ProblemActivity extends AppCompatActivity implements View.OnDragListener, View.OnLongClickListener {
 
     static ParsonsProblem instanceProblem;
+    static int numProbLines;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,39 +29,42 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
               this.getSupportActionBar().hide();
         } catch (NullPointerException e) {}
 
-        setContentView(R.layout.activity_problem);
-
-        //eventually, you should use extras to pass the topic and user skill from main
-        // activity to problem activity
-        ParsonsProblem pp = generateProblem("IO", 1, 1);
+        //ParsonsProblem pp = generateParsonsProblem("IO", 1, 3);
+        ParsonsProblem pp = generateParsonsProblem("IO", 1, 3);
         instanceProblem = pp;
+
+        numProbLines = instanceProblem.validLines.size() +
+                       instanceProblem.distractors.size();
+
+        // set layout content view based on number of problem lines
+        // simpler than doing any computational xml manipulation (as far as i know)
+        if (numProbLines == 3) setContentView(R.layout.activity_problem_03);
+        if (numProbLines == 4) setContentView(R.layout.activity_problem_04);
+        if (numProbLines == 5) setContentView(R.layout.activity_problem_05);
+        if (numProbLines == 6) setContentView(R.layout.activity_problem_06);
+        if (numProbLines == 7) setContentView(R.layout.activity_problem_07);
+        if (numProbLines == 8) setContentView(R.layout.activity_problem_08);
+        if (numProbLines == 9) setContentView(R.layout.activity_problem_09);
+        if (numProbLines == 10) setContentView(R.layout.activity_problem_10);
+        if (numProbLines == 11) setContentView(R.layout.activity_problem_11);
+
+
+        //eventually, you should use 'extras' to pass the topic and user skill from main
+        // activity to problem activity
+
         displayProblem(pp);
 
-        //Tag all lines as draggable
-        TextView dragLine1 = (TextView) findViewById(R.id.line_view);
-        dragLine1.setTag("DRAGGABLE TEXTVIEW");
-        dragLine1.setOnLongClickListener(this);
-        TextView dragLine2 = (TextView) findViewById(R.id.line_view2);
-        dragLine2.setTag("DRAGGABLE TEXTVIEW");
-        dragLine2.setOnLongClickListener(this);
-        TextView dragLine3 = (TextView) findViewById(R.id.line_view3);
-        dragLine3.setTag("DRAGGABLE TEXTVIEW");
-        dragLine3.setOnLongClickListener(this);
-        TextView dragLine4 = (TextView) findViewById(R.id.line_view4);
-        dragLine4.setTag("DRAGGABLE TEXTVIEW");
-        dragLine4.setOnLongClickListener(this);
-        TextView dragLine5 = (TextView) findViewById(R.id.line_view5);
-        dragLine5.setTag("DRAGGABLE TEXTVIEW");
-        dragLine5.setOnLongClickListener(this);
-        TextView dragLine6 = (TextView) findViewById(R.id.line_view6);
-        dragLine6.setTag("DRAGGABLE TEXTVIEW");
-        dragLine6.setOnLongClickListener(this);
+        //Tag all lines as draggable and set OCL
+        LinearLayout givLay = findViewById(R.id.given_layout);
+        for(int i=0; i<numProbLines; i++){
+            TextView l = (TextView) givLay.getChildAt(i);
+            l.setTag("DRAGGABLE TEXTVIEW");
+            l.setOnLongClickListener(this);
+        }
 
         //Set drag event listeners for layouts
         findViewById(R.id.answer_layout).setOnDragListener(this);
         findViewById(R.id.given_layout).setOnDragListener(this);
-
-
     }
 
 
@@ -74,7 +76,6 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         ClipData data = new ClipData(v.getTag().toString(), mimeTypes, item);
         View.DragShadowBuilder dragshadow = new View.DragShadowBuilder(v);
         v.startDrag(data, dragshadow, v, 0);
-
 
         return true;
     }
@@ -162,29 +163,21 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
     }
 
     public void displayProblem(ParsonsProblem pp){
+        //Set prompt text
         TextView promptV = (TextView) findViewById(R.id.prompt_view);
         promptV.setText(pp.prompt);
-
-
 
         ArrayList<String> allLines = new ArrayList<>();
         allLines.addAll(pp.validLines);
         allLines.addAll(pp.distractors);
         Collections.shuffle(allLines);
 
-        //This should be refactored, this is bad...., or at least not very good.
-        TextView line1 = findViewById(R.id.line_view);
-        line1.setText(allLines.get(0));
-        TextView line2 = findViewById(R.id.line_view2);
-        line2.setText(allLines.get(1));
-        TextView line3 = findViewById(R.id.line_view3);
-        line3.setText(allLines.get(2));
-        TextView line4 = findViewById(R.id.line_view4);
-        line4.setText(allLines.get(3));
-        TextView line5 = findViewById(R.id.line_view5);
-        line5.setText(allLines.get(4));
-        TextView line6 = findViewById(R.id.line_view6);
-        line6.setText(allLines.get(5));
+        LinearLayout givLay = findViewById(R.id.given_layout);
+        for(int i=0; i<numProbLines; i++){
+            TextView l = (TextView) givLay.getChildAt(i);
+            l.setText(allLines.get(i));
+        }
+
 
         // try to figure out how to add each line dynamically
 //        TextView lowestLV = lineV;
@@ -200,7 +193,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
 
     //This takes the topic string (IO,VAR,CON,DATA,FUN,OOP), user skill level for topic
     // and the number of problems of that difficulty for that topic.
-    public ParsonsProblem generateProblem(String topic, int skill, int numOfProblems){
+    public ParsonsProblem generateParsonsProblem(String topic, int skill, int numOfProblems){
         String skillLvl = "0" + Integer.toString(skill);
 
         Random r = new Random();
@@ -224,12 +217,6 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
     }
 
     public void checkAnswer(View v){
-        // if no. lines in answer > no. lines in pp.validLines then too many lines used
-        // if no. lines in answer < no. lines in pp.validLines then not enough lines used
-        // for every line in answer layout, if answer[i] == pp.validLines.get(i)
-        // then line i is correct, else line i is wrong
-
-        // if num lines ==, and each line correct, then answer is correct
 
         LinearLayout ansLay = findViewById(R.id.answer_layout);
         TextView promptV = findViewById(R.id.prompt_view);
@@ -282,6 +269,5 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
 
 
     }
-
 
 }

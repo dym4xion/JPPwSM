@@ -87,7 +87,7 @@
             android:layout_margin="5dip"
             android:background="@color/colorLine"
             android:fontFamily="monospace"
-            android:text="ANOTHER LINE"
+            android:text="LINE 2"
             android:textColor="@color/colorLineText"
             android:textSize="10sp" />
 
@@ -98,7 +98,7 @@
             android:layout_margin="5dip"
             android:background="@color/colorLine"
             android:fontFamily="monospace"
-            android:text="YET ANOTHER LINE"
+            android:text="LINE 3"
             android:textColor="@color/colorLineText"
             android:textSize="10sp" />
 
@@ -109,7 +109,7 @@
             android:layout_margin="5dip"
             android:background="@color/colorLine"
             android:fontFamily="monospace"
-            android:text="STILL MORE LINES"
+            android:text="LINE 4"
             android:textColor="@color/colorLineText"
             android:textSize="10sp" />
 
@@ -120,7 +120,7 @@
             android:layout_margin="5dip"
             android:background="@color/colorLine"
             android:fontFamily="monospace"
-            android:text="SO MANY LINES"
+            android:text="LINE 5"
             android:textColor="@color/colorLineText"
             android:textSize="10sp" />
 
@@ -131,7 +131,29 @@
             android:layout_margin="5dip"
             android:background="@color/colorLine"
             android:fontFamily="monospace"
-            android:text="YOU SHOULDN'T HAVE THIS MANY LINES"
+            android:text="LINE 6"
+            android:textColor="@color/colorLineText"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/line_view7"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:layout_margin="5dip"
+            android:background="@color/colorLine"
+            android:fontFamily="monospace"
+            android:text="LINE 7"
+            android:textColor="@color/colorLineText"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/line_view8"
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:layout_margin="5dip"
+            android:background="@color/colorLine"
+            android:fontFamily="monospace"
+            android:text="LINE 8"
             android:textColor="@color/colorLineText"
             android:textSize="10sp" />
     </LinearLayout>
