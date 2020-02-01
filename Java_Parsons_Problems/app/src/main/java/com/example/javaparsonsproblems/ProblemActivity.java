@@ -85,7 +85,6 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
     public boolean onDrag(View v, DragEvent event){
         int action = event.getAction();
 
-
         switch (action) {
 
             case DragEvent.ACTION_DRAG_STARTED:
@@ -108,33 +107,53 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
                 return true;
 
             case DragEvent.ACTION_DROP:
-
                 v.invalidate();
-
 
                 TextView vw = (TextView) event.getLocalState();
                 ViewGroup owner = (ViewGroup) vw.getParent();
                 owner.removeView(vw);
                 LinearLayout container = (LinearLayout) v;
 
+                // the same approach:
+                // if new container: 'container' is 'given_layout', just addView... order doesn't matter
+                // if new container: 'container' is 'answer_layout' then
+                // - get height of event
+                // - loop through lines in container until
+
+
+
+
                 container.addView(vw);
 
+
+
+
+
+
+
+                // hooooooooooooooooooow?
                 //Try to figure out how to allow for better sorting.
                 //Current system only allows for dropping new line at end.
 
 //                if (container.getChildCount() == 0){
 //                    container.addView(vw);
 //                } else {
-//                    int draggedX = (int) event.getX();
+//                    // int draggedY = (int) event.getY();
 //
 //                    for(int i=0;i<container.getChildCount();i++){
+//
 //                        int containerLinePos[] = new int[2];
 //                        container.getChildAt(i).getLocationOnScreen(containerLinePos);
-//                        if(draggedX > containerLinePos[1] ){
-//                            System.out.println("Dragged line lower than i.");
-//                        } else {
-//                            container.addView(vw, i);
-//                        }
+//
+//                        vw.setText(containerLinePos.toString());
+//
+//                        container.addView(vw);
+//
+////                        if(draggedY > containerLinePos[1] ){
+////                            System.out.println("Dragged line lower than i.");
+////                        } else {
+////                            container.addView(vw, i);
+////                        }
 //                    }
 //                }
 
