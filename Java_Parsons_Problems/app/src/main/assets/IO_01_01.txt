@@ -1,0 +1,11 @@
+[prompt]
+LVL I: Arrange the necessary lines to define a method which outputs the strings "Hello" and "World!" on separate lines.
+[valid lines]
+public static void main(String[] args){
+    System.out.println("Hello");
+    System.out.println("World!");
+}
+[distractors]
+    System.out.println("World")
+    System.out.print("Hello");
+[end]

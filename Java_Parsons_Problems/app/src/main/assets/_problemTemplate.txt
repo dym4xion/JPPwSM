@@ -1,0 +1,4 @@
+[prompt]
+[valid lines]
+[distractors]
+[end]

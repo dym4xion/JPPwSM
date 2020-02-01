@@ -1,0 +1,12 @@
+[prompt]
+LVL I: Arrange the lines to form a method which returns 5 plus the parameter.
+[valid lines]
+public static int plus5(int a){
+    int b = 5;
+    int c = a + b;
+    return c;
+}
+[distractors]
+public static void plus5(int a){
+return a;
+[end]
