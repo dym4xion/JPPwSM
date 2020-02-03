@@ -51,14 +51,14 @@ public class ParsonsProblemTest {
 //        assertEquals(expectedDistractors.get(1), pp.distractors.get(1));
 //    }
 
-    @Test
-    public void TestGenerateParsonsProblem(){
-        ProblemActivity pa = new ProblemActivity();
-        ParsonsProblem pp = pa.generateProblem("IO", 1, 1);
-//        System.out.println(pp.prompt);
-//        System.out.println(pp.validLines);
-//        System.out.println(pp.distractors);
-    }
+//    @Test
+//    public void TestGenerateParsonsProblem(){
+//        ProblemActivity pa = new ProblemActivity();
+//        ParsonsProblem pp = pa.generateProblem("IO", 1, 1);
+////        System.out.println(pp.prompt);
+////        System.out.println(pp.validLines);
+////        System.out.println(pp.distractors);
+//    }
 
 
 }

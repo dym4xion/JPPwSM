@@ -3,12 +3,14 @@ package com.example.javaparsonsproblems;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.io.InputStream;
@@ -29,8 +31,14 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
               this.getSupportActionBar().hide();
         } catch (NullPointerException e) {}
 
-        //ParsonsProblem pp = generateParsonsProblem("IO", 1, 3);
-        ParsonsProblem pp = generateParsonsProblem("IO", 1, 3);
+
+        Intent thisProb = getIntent();
+        Bundle topicExtras = thisProb.getExtras();
+        String topic = topicExtras.getString("PROB_TOPIC");
+        int skill = topicExtras.getInt("TOPIC_LEVEL");
+        int probVars = topicExtras.getInt("PROB_VARS");
+
+        ParsonsProblem pp = generateParsonsProblem(topic, skill, probVars);
         instanceProblem = pp;
 
         numProbLines = instanceProblem.validLines.size() +
@@ -51,6 +59,8 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
 
         //eventually, you should use 'extras' to pass the topic and user skill from main
         // activity to problem activity
+        Button nxt = findViewById(R.id.next_button);
+        nxt.setVisibility(View.INVISIBLE);
 
         displayProblem(pp);
 
@@ -113,6 +123,9 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
                 ViewGroup owner = (ViewGroup) vw.getParent();
                 owner.removeView(vw);
                 LinearLayout container = (LinearLayout) v;
+                container.addView(vw);
+
+
 
                 // the same approach:
                 // if new container: 'container' is 'given_layout', just addView... order doesn't matter
@@ -123,7 +136,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
 
 
 
-                container.addView(vw);
+
 
 
 
@@ -272,6 +285,15 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
             if (correctCount == instanceProblem.validLines.size()){
                 String newPrompt = promptS + "\n\nFEEDBACK: CONGRATULATIONS! ALL LINES ARE CORRECT.";
                 promptV.setText(newPrompt);
+
+                //hide submit and reset and show next
+                Button chk = findViewById(R.id.submit_button);
+                chk.setVisibility(View.INVISIBLE);
+                Button rst = findViewById(R.id.reset_button);
+                rst.setVisibility(View.INVISIBLE);
+                Button nxt = findViewById(R.id.next_button);
+                nxt.setVisibility(View.VISIBLE);
+
             } else if (distractorCount > 0){
                 String newPrompt = promptS + "\n\nFEEDBACK: A DISTRACTOR LINE HAS BEEN USED. TRY A DIFFERENT LINE.";
                 promptV.setText(newPrompt);
@@ -289,4 +311,25 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
 
     }
 
+    public void resetLines(View v){
+        LinearLayout ansLay = findViewById(R.id.answer_layout);
+        LinearLayout givLay = findViewById(R.id.given_layout);
+
+        int numAnsLines = ansLay.getChildCount();
+        while (!(numAnsLines == 0)){
+            TextView l = (TextView) ansLay.getChildAt(0);
+            ansLay.removeView(l);
+            l.setBackgroundColor(getResources().getColor(R.color.colorLine));
+            givLay.addView(l);
+            numAnsLines -= 1;
+        }
+    }
+
+    public void nextProblem(View v){
+        Intent newProblem = new Intent(this, ProblemActivity.class);
+        newProblem.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(newProblem);
+        finish();
+    }
 }
+

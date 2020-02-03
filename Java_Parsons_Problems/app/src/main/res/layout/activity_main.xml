@@ -24,7 +24,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
         android:onClick="startProblem"
-        android:text="Variables"
+        android:text="VARIABLES"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,7 +35,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:onClick="startProblem"
-        android:text="Control Structures"
+        android:text="CONTROL STRUCTURES"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/IO_button" />
 
@@ -46,7 +46,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
         android:onClick="startProblem"
-        android:text="Data Structures"
+        android:text="DATA STRUCTURES"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/VAR_button" />
 
@@ -57,7 +57,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
         android:onClick="startProblem"
-        android:text="Functions"
+        android:text="FUNCTIONS"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/CON_button" />
 
@@ -68,7 +68,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
         android:onClick="startProblem"
-        android:text="Object Oriented Principles"
+        android:text="OBJECT ORIENTED PRINCIPLES"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DATA_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>
