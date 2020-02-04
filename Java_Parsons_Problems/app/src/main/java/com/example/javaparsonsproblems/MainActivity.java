@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    static ArrayList<Integer> stdLVLs = new ArrayList<>();
+    Student st;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,13 +32,8 @@ public class MainActivity extends AppCompatActivity {
             in.close();
         } catch (Exception e){System.out.println(e);System.out.println("Failed to read student file");}
 
-        Student st = new Student(studentString);
-        stdLVLs.add(st.ioLVL);
-        stdLVLs.add(st.varLVL);
-        stdLVLs.add(st.conLVL);
-        stdLVLs.add(st.dsLVL);
-        stdLVLs.add(st.funLVL);
-        stdLVLs.add(st.oopLVL);
+        st = new Student(studentString);
+
 
     }
 
@@ -49,8 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (clickedText.equals("I/O")) {
             ex.putString("PROB_TOPIC", "IO");
-            ex.putInt("TOPIC_LEVEL", stdLVLs.get(0));
-            ex.putInt("PROB_VARS", getNumProbVariants(0, stdLVLs.get(0)));
+            ex.putInt("TOPIC_LEVEL", st.ioLVL);
+            int[][] varMat = getVariantsMatrix();
+            ex.putIntArray("VARS_MATRIX", varMat[0]);
 
             Intent problem = new Intent(this, ProblemActivity.class);
             problem.putExtras(ex);
@@ -58,8 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (clickedText.equals("VARIABLES")) {
             ex.putString("PROB_TOPIC", "VAR");
-            ex.putInt("TOPIC_LEVEL", stdLVLs.get(1));
-            ex.putInt("PROB_VARS", getNumProbVariants(1, stdLVLs.get(1)));
+            ex.putInt("TOPIC_LEVEL", st.varLVL);
+            int[][] varMat = getVariantsMatrix();
+            ex.putIntArray("VARS_MATRIX", varMat[1]);
 
             Intent problem = new Intent(this, ProblemActivity.class);
             problem.putExtras(ex);
@@ -67,8 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (clickedText.equals("CONTROL STRUCTURES")) {
             ex.putString("PROB_TOPIC", "CON");
-            ex.putInt("TOPIC_LEVEL", stdLVLs.get(2));
-            ex.putInt("PROB_VARS", getNumProbVariants(2, stdLVLs.get(2)));
+            ex.putInt("TOPIC_LEVEL", st.conLVL);
+            int[][] varMat = getVariantsMatrix();
+            ex.putIntArray("VARS_MATRIX", varMat[2]);
 
             Intent problem = new Intent(this, ProblemActivity.class);
             problem.putExtras(ex);
@@ -76,8 +74,9 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (clickedText.equals("DATA STRUCTURES")) {
             ex.putString("PROB_TOPIC", "DS");
-            ex.putInt("TOPIC_LEVEL", stdLVLs.get(3));
-            ex.putInt("PROB_VARS", getNumProbVariants(3, stdLVLs.get(3)));
+            ex.putInt("TOPIC_LEVEL", st.dsLVL);
+            int[][] varMat = getVariantsMatrix();
+            ex.putIntArray("VARS_MATRIX", varMat[3]);
 
             Intent problem = new Intent(this, ProblemActivity.class);
             problem.putExtras(ex);
@@ -85,8 +84,9 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (clickedText.equals("FUNCTIONS")) {
             ex.putString("PROB_TOPIC", "FUN");
-            ex.putInt("TOPIC_LEVEL", stdLVLs.get(4));
-            ex.putInt("PROB_VARS", getNumProbVariants(4, stdLVLs.get(4)));
+            ex.putInt("TOPIC_LEVEL", st.funLVL);
+            int[][] varMat = getVariantsMatrix();
+            ex.putIntArray("VARS_MATRIX", varMat[4]);
 
             Intent problem = new Intent(this, ProblemActivity.class);
             problem.putExtras(ex);
@@ -94,8 +94,9 @@ public class MainActivity extends AppCompatActivity {
 
         } else if (clickedText.equals("OBJECT ORIENTED PRINCIPLES")) {
             ex.putString("PROB_TOPIC", "OOP");
-            ex.putInt("TOPIC_LEVEL", stdLVLs.get(5));
-            ex.putInt("PROB_VARS", getNumProbVariants(5, stdLVLs.get(5)));
+            ex.putInt("TOPIC_LEVEL", st.oopLVL);
+            int[][] varMat = getVariantsMatrix();
+            ex.putIntArray("VARS_MATRIX", varMat[5]);
 
             Intent problem = new Intent(this, ProblemActivity.class);
             problem.putExtras(ex);
@@ -103,9 +104,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public int getNumProbVariants(int topicNum, int skill){
+
+    //should return the whole arry instead
+    public int[][] getVariantsMatrix(){
         int[][] lvlMatrix = {
-                {3,0,0,0,0,0,0,0,0,0}, //IO
+   //skill level:1,2,3,4,5,6,7,8,9,10
+                {3,1,1,0,0,0,0,0,0,0}, //IO
                 {1,0,0,0,0,0,0,0,0,0}, //VAR
                 {1,0,0,0,0,0,0,0,0,0}, //CON
                 {1,0,0,0,0,0,0,0,0,0}, //DS
@@ -113,6 +117,6 @@ public class MainActivity extends AppCompatActivity {
                 {1,0,0,0,0,0,0,0,0,0}  //OOP
         };
 
-        return lvlMatrix[topicNum][skill - 1];
+        return lvlMatrix;
     }
 }

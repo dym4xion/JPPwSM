@@ -1,0 +1,11 @@
+[prompt]
+LVL II: Use the Integer class to define a method that prints an int parameter.
+[valid lines]
+public static void printInt(int x){
+    String y = Integer.toString(x);
+    System.out.println(y);
+  }
+[distractors]
+    return y;
+public static void printInt(String x){
+[end]

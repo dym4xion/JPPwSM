@@ -1,7 +1,5 @@
 package com.example.javaparsonsproblems;
 
-
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -15,7 +13,6 @@ public class ParsonsProblem {
     public ParsonsProblem(String in){
         ParseParsonTXT(in);
     }
-
 
     public void ParseParsonTXT(String in){
 

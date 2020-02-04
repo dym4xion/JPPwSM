@@ -22,6 +22,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
 
     static ParsonsProblem instanceProblem;
     static int numProbLines;
+    int dSkill = 0;
 
 
     @Override
@@ -36,45 +37,54 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         Bundle topicExtras = thisProb.getExtras();
         String topic = topicExtras.getString("PROB_TOPIC");
         int skill = topicExtras.getInt("TOPIC_LEVEL");
-        int probVars = topicExtras.getInt("PROB_VARS");
+        int probVars = topicExtras.getIntArray("VARS_MATRIX")[skill - 1];
 
-        ParsonsProblem pp = generateParsonsProblem(topic, skill, probVars);
-        instanceProblem = pp;
+        if (probVars == 0){
+            setContentView(R.layout.no_problem);
+            TextView t = findViewById(R.id.topic_view);
+            t.setText(topic);
+            TextView l = findViewById(R.id.level_view);
+            l.setText(Integer.toString(skill));
 
-        numProbLines = instanceProblem.validLines.size() +
-                       instanceProblem.distractors.size();
+        } else {
+            ParsonsProblem pp = generateParsonsProblem(topic, skill, probVars);
+            instanceProblem = pp;
 
-        // set layout content view based on number of problem lines
-        // simpler than doing any computational xml manipulation (as far as i know)
-        if (numProbLines == 3) setContentView(R.layout.activity_problem_03);
-        if (numProbLines == 4) setContentView(R.layout.activity_problem_04);
-        if (numProbLines == 5) setContentView(R.layout.activity_problem_05);
-        if (numProbLines == 6) setContentView(R.layout.activity_problem_06);
-        if (numProbLines == 7) setContentView(R.layout.activity_problem_07);
-        if (numProbLines == 8) setContentView(R.layout.activity_problem_08);
-        if (numProbLines == 9) setContentView(R.layout.activity_problem_09);
-        if (numProbLines == 10) setContentView(R.layout.activity_problem_10);
-        if (numProbLines == 11) setContentView(R.layout.activity_problem_11);
+            numProbLines = instanceProblem.validLines.size() +
+                    instanceProblem.distractors.size();
 
+            // set layout content view based on number of problem lines
+            // simpler than doing any computational xml manipulation (as far as i know)
+            // restricts number of lines per problem to between 3 and 11
+            if (numProbLines == 3) setContentView(R.layout.activity_problem_03);
+            if (numProbLines == 4) setContentView(R.layout.activity_problem_04);
+            if (numProbLines == 5) setContentView(R.layout.activity_problem_05);
+            if (numProbLines == 6) setContentView(R.layout.activity_problem_06);
+            if (numProbLines == 7) setContentView(R.layout.activity_problem_07);
+            if (numProbLines == 8) setContentView(R.layout.activity_problem_08);
+            if (numProbLines == 9) setContentView(R.layout.activity_problem_09);
+            if (numProbLines == 10) setContentView(R.layout.activity_problem_10);
+            if (numProbLines == 11) setContentView(R.layout.activity_problem_11);
 
-        //eventually, you should use 'extras' to pass the topic and user skill from main
-        // activity to problem activity
-        Button nxt = findViewById(R.id.next_button);
-        nxt.setVisibility(View.INVISIBLE);
+            Button nxt = findViewById(R.id.next_button);
+            nxt.setVisibility(View.INVISIBLE);
 
-        displayProblem(pp);
+            displayProblem(pp);
 
-        //Tag all lines as draggable and set OCL
-        LinearLayout givLay = findViewById(R.id.given_layout);
-        for(int i=0; i<numProbLines; i++){
-            TextView l = (TextView) givLay.getChildAt(i);
-            l.setTag("DRAGGABLE TEXTVIEW");
-            l.setOnLongClickListener(this);
+            //Tag all lines as draggable and set OCL
+            LinearLayout givLay = findViewById(R.id.given_layout);
+            for(int i=0; i<numProbLines; i++){
+                TextView l = (TextView) givLay.getChildAt(i);
+                l.setTag("DRAGGABLE TEXTVIEW");
+                l.setOnLongClickListener(this);
+            }
+
+            //Set drag event listeners for layouts
+            findViewById(R.id.answer_layout).setOnDragListener(this);
+            findViewById(R.id.given_layout).setOnDragListener(this);
         }
 
-        //Set drag event listeners for layouts
-        findViewById(R.id.answer_layout).setOnDragListener(this);
-        findViewById(R.id.given_layout).setOnDragListener(this);
+
     }
 
 
@@ -229,6 +239,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         String skillLvl = "0" + Integer.toString(skill);
 
         Random r = new Random();
+        System.out.println(numOfProblems);
         String problemNum = "0" + Integer.toString(r.nextInt(numOfProblems) + 1);
         String filename = topic + "_" + skillLvl + "_" + problemNum + ".txt";
 
@@ -257,9 +268,11 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
 
         //Check correct number of lines are used
         if (ansLay.getChildCount() < instanceProblem.validLines.size()){
+            dSkill -= 1;
             String newPrompt = promptS + "\n\nFEEDBACK: THE SOLUTION REQUIRES THE USE OF MORE LINES.";
             promptV.setText(newPrompt);
         } else if (ansLay.getChildCount() > instanceProblem.validLines.size()) {
+            dSkill -= 1;
             String newPrompt = promptS + "\n\nFEEDBACK: THE SOLUTION REQUIRES FEWER LINES.";
             promptV.setText(newPrompt);
         } else{
@@ -281,10 +294,14 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
                 }
             }
 
-            //Attributes message based on answer attempt
+            //Attributes message based on answer attempt with correct number of lines.
             if (correctCount == instanceProblem.validLines.size()){
+                dSkill += 1;
                 String newPrompt = promptS + "\n\nFEEDBACK: CONGRATULATIONS! ALL LINES ARE CORRECT.";
                 promptV.setText(newPrompt);
+
+                // if level is less than 10, increment level and write new value to file
+
 
                 //hide submit and reset and show next
                 Button chk = findViewById(R.id.submit_button);
@@ -295,20 +312,15 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
                 nxt.setVisibility(View.VISIBLE);
 
             } else if (distractorCount > 0){
+                dSkill -= 1;
                 String newPrompt = promptS + "\n\nFEEDBACK: A DISTRACTOR LINE HAS BEEN USED. TRY A DIFFERENT LINE.";
                 promptV.setText(newPrompt);
             } else {
+                dSkill -= 1;
                 String newPrompt = promptS + "\n\nFEEDBACK: CORRECT LINES USED IN WRONG ORDER.";
                 promptV.setText(newPrompt);
             }
         }
-
-
-
-
-
-
-
     }
 
     public void resetLines(View v){
@@ -328,8 +340,23 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
     public void nextProblem(View v){
         Intent newProblem = new Intent(this, ProblemActivity.class);
         newProblem.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+
+        Intent thisProb = getIntent();
+        Bundle topicExtras = thisProb.getExtras();
+        String topic = topicExtras.getString("PROB_TOPIC");
+        int skill = topicExtras.getInt("TOPIC_LEVEL");
+        int[] probVars = topicExtras.getIntArray("VARS_MATRIX");
+
+        Bundle newProb = new Bundle();
+        newProb.putString("PROB_TOPIC", topic);
+        if (skill + dSkill > 0 && skill + dSkill < 11) newProb.putInt("TOPIC_LEVEL", skill + dSkill);
+        else if (skill + dSkill < 1) newProb.putInt("TOPIC_LEVEL", 1);
+        else newProb.putInt("TOPIC_LEVEL", skill);
+        newProb.putIntArray("VARS_MATRIX", probVars);
+
+        newProblem.putExtras(newProb);
         startActivity(newProblem);
         finish();
     }
 }
-
