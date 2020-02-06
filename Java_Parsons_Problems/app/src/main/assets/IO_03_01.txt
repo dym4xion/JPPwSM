@@ -1,9 +1,12 @@
 [prompt]
-I/O LVL III: Order the sequence to define an int value after defining a string value then print the two values concatenated.
+I/O LVL III: Use the Integer class to define a method that prints the first number in an int parameter.
 [valid lines]
-String j = "My favourite number is: ";
-int i = 5;
-String k = j + i;
-System.out.println(k);
+public static void printFirstInt(int x){
+    String y = Integer.toString(x);
+    System.out.println(y.charAt(0));
+}
 [distractors]
+    return y;
+public static void printFirstInt(String x){
+    System.out.println(y.charAt(1));
 [end]

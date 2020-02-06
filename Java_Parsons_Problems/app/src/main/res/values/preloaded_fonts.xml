@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/cutive</item>
+        <item>@font/cutive_mono</item>
+        <item>@font/droid_sans_mono</item>
+        <item>@font/geo</item>
+        <item>@font/nova_mono</item>
+        <item>@font/overpass_mono</item>
+        <item>@font/oxygen_mono</item>
+        <item>@font/pt_mono</item>
+        <item>@font/roboto_mono</item>
+        <item>@font/space_mono</item>
+        <item>@font/ubuntu_mono</item>
+    </array>
+</resources>

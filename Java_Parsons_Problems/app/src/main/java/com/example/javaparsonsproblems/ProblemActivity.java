@@ -3,11 +3,13 @@ package com.example.javaparsonsproblems;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,18 +59,15 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
             numProbLines = instanceProblem.validLines.size() +
                     instanceProblem.distractors.size();
 
-            // set layout content view based on number of problem lines
-            // simpler than doing any computational xml manipulation (as far as i know)
-            // restricts number of lines per problem to between 3 and 11
-            if (numProbLines == 3) setContentView(R.layout.activity_problem_03);
-            if (numProbLines == 4) setContentView(R.layout.activity_problem_04);
-            if (numProbLines == 5) setContentView(R.layout.activity_problem_05);
-            if (numProbLines == 6) setContentView(R.layout.activity_problem_06);
-            if (numProbLines == 7) setContentView(R.layout.activity_problem_07);
-            if (numProbLines == 8) setContentView(R.layout.activity_problem_08);
-            if (numProbLines == 9) setContentView(R.layout.activity_problem_09);
-            if (numProbLines == 10) setContentView(R.layout.activity_problem_10);
-            if (numProbLines == 11) setContentView(R.layout.activity_problem_11);
+            setContentView(R.layout.problem_layout);
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            //Inflate the line_layout xml for every line in the problem
+            LinearLayout giv = findViewById(R.id.given_layout);
+            for(int i = 0; i < numProbLines; i++){
+                TextView line = (TextView) inflater.inflate(R.layout.line_layout, giv, false);
+                giv.addView(line);
+            }
 
             Button nxt = findViewById(R.id.next_button);
             nxt.setVisibility(View.INVISIBLE);
@@ -94,7 +93,6 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
             view.startDrag(null, shadowBuilder, view, 0);
-            view.setVisibility(View.INVISIBLE);
             return true;
         } else {
             return false;
@@ -113,30 +111,43 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
                 break;
             case DragEvent.ACTION_DROP:
                 TextView view = (TextView) dragevent.getLocalState();
-                ViewGroup owner = (ViewGroup) view.getParent();
+                LinearLayout owner = (LinearLayout) view.getParent();
                 owner.removeView(view);
                 LinearLayout container = (LinearLayout) layoutview;
 
-                double yPos = dragevent.getY();
-                if(container.getChildCount() == 0) container.addView(view); // when target container is empty
-                else if (container.getChildAt(0).getY() > yPos) container.addView(view,0); // when new line is placed above highest line in container
-                else if (container.getChildAt(container.getChildCount()-1).getY() < yPos) container.addView(view); // when new line is placed below lowest line in container
-                else { // when new line is placed somewhere in the middle
-                    boolean added = false;
-                    int lineCount = 0;
-                    while(!added){
-                        if(container.getChildAt(lineCount).getY() > yPos) {
-                            container.addView(view,lineCount);
-                            added = true;
-                        } else lineCount++;
+                if(container.getId() != R.id.answer_layout && container.getId() != R.id.given_layout){
+                    owner.addView(view);
+                } else {
+                    double yPos = dragevent.getY();
+                    if(container.getChildCount() == 0) container.addView(view); // when target container is empty
+                    else if (container.getChildAt(0).getY() > yPos) container.addView(view,0); // when new line is placed above highest line in container
+                    else if (container.getChildAt(container.getChildCount()-1).getY() < yPos) container.addView(view); // when new line is placed below lowest line in container
+                    else { // when new line is placed somewhere in the middle
+                        boolean added = false;
+                        int lineCount = 0;
+                        while(!added){
+                            if(container.getChildAt(lineCount).getY() > yPos) {
+                                container.addView(view,lineCount);
+                                added = true;
+                            } else lineCount++;
+                        }
                     }
                 }
+
+
+                LinearLayout ansL = findViewById(R.id.answer_layout);
+                LinearLayout vwParent = (LinearLayout) view.getParent();
+                if (vwParent == ansL){
+                    view.setBackgroundColor(Color.WHITE);
+                }
+                else view.setBackgroundColor(getResources().getColor(R.color.colorLine));
 
                 view.setVisibility(View.VISIBLE);
                 break;
             case DragEvent.ACTION_DRAG_ENDED:
                 break;
             default:
+                Log.e("Parson Problem Activity", "Something went wrong with the dragging and dropping");
                 break;
         }
         return true;

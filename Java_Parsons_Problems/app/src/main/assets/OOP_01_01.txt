@@ -4,8 +4,7 @@ OOP LVL I: Define a class to describe a rectangle in terms of its height and wid
 public class Rectangle {
     int width; int height;
     public Rectangle (int w, int h){
-    width = w; height = h;
-    }
+    width = w; height = h;}
 }
 [distractors]
 public static Rectangle (int w, int h){

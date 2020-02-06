@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -21,6 +22,7 @@
         android:paddingRight="6dp"
         android:text="PROMPT"
         android:textAlignment="textStart"
+        android:textSize="16sp"
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,8 +44,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="NEXT"
         android:onClick="nextProblem"
+        android:text="NEXT"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/submit_button"
         app:layout_constraintStart_toEndOf="@+id/reset_button" />
@@ -54,8 +56,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="36dp"
         android:layout_marginBottom="24dp"
-        android:text="RESET"
         android:onClick="resetLines"
+        android:text="RESET"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -84,63 +86,6 @@
         app:layout_constraintBottom_toTopOf="@+id/submit_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/answer_layout">
+        app:layout_constraintTop_toBottomOf="@+id/answer_layout"/>
 
-        <TextView
-            android:id="@+id/line_view"
-            android:layout_width="match_parent"
-            android:layout_height="40dip"
-            android:layout_margin="5dip"
-            android:background="@color/colorLine"
-            android:fontFamily="monospace"
-            android:text="LINE"
-            android:textAlignment="textStart"
-            android:textColor="@color/colorLineText"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/line_view2"
-            android:layout_width="match_parent"
-            android:layout_height="40dip"
-            android:layout_margin="5dip"
-            android:background="@color/colorLine"
-            android:fontFamily="monospace"
-            android:text="LINE 2"
-            android:textColor="@color/colorLineText"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/line_view3"
-            android:layout_width="match_parent"
-            android:layout_height="40dip"
-            android:layout_margin="5dip"
-            android:background="@color/colorLine"
-            android:fontFamily="monospace"
-            android:text="LINE 3"
-            android:textColor="@color/colorLineText"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/line_view4"
-            android:layout_width="match_parent"
-            android:layout_height="40dip"
-            android:layout_margin="5dip"
-            android:background="@color/colorLine"
-            android:fontFamily="monospace"
-            android:text="LINE 4"
-            android:textColor="@color/colorLineText"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/line_view5"
-            android:layout_width="match_parent"
-            android:layout_height="40dip"
-            android:layout_margin="5dip"
-            android:background="@color/colorLine"
-            android:fontFamily="monospace"
-            android:text="LINE 5"
-            android:textColor="@color/colorLineText"
-            android:textSize="10sp" />
-
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

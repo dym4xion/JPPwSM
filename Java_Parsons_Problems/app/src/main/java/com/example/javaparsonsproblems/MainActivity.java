@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    //should return the whole arry instead
+    //should return the whole array instead
     public int[][] getVariantsMatrix(){
         int[][] lvlMatrix = {
    //skill level:1,2,3,4,5,6,7,8,9,10

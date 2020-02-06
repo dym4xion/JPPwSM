@@ -1,11 +1,9 @@
 [prompt]
-I/O LVL II: Use the Integer class to define a method that prints an int parameter.
+I/O LVL II: Order the sequence to define an int value after defining a string value then print the two values concatenated.
 [valid lines]
-public static void printInt(int x){
-    String y = Integer.toString(x);
-    System.out.println(y);
-  }
+String j = "My favourite number is: ";
+int i = 5;
+String k = j + i;
+System.out.println(k);
 [distractors]
-    return y;
-public static void printInt(String x){
 [end]
