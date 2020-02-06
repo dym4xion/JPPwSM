@@ -1,5 +1,5 @@
 [prompt]
-Define a function which takes an integer as it's parameter and returns its square.
+FUN LVL I: Define a function which takes an integer as it's parameter and returns its square.
 [valid lines]
 public int square(int x) {
     int y = x * x;

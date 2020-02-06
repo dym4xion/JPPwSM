@@ -1,0 +1,12 @@
+[prompt]
+I/O LVL V: Define a method that takes a String parameter, and a console input integer and prints the parameter however many times the input integer is.
+[valid lines]
+public void printNTimes(String s){
+    Scanner input = new Scanner (System.in);
+    int a = input.nextInt();
+    for(int i = 0; i < a; i++){
+      System.out.println(s);}
+}
+[distractors]
+for(i = 0; i < a; i++){
+[end]

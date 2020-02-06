@@ -1,5 +1,5 @@
 [prompt]
-LVL I: Print the words 'Water' and then ' Ice' on two separate lines
+I/O LVL I: Print the words 'Water' and then ' Ice' on two separate lines
 [valid lines]
 System.out.println("Water");
 System.out.println("Ice");

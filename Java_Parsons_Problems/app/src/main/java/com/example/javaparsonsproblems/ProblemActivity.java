@@ -8,17 +8,21 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class ProblemActivity extends AppCompatActivity implements View.OnDragListener, View.OnLongClickListener {
+public class ProblemActivity extends AppCompatActivity implements View.OnDragListener, View.OnTouchListener {
 
     static ParsonsProblem instanceProblem;
     static int numProbLines;
@@ -76,132 +80,66 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
             for(int i=0; i<numProbLines; i++){
                 TextView l = (TextView) givLay.getChildAt(i);
                 l.setTag("DRAGGABLE TEXTVIEW");
-                l.setOnLongClickListener(this);
+                l.setOnTouchListener(this);
             }
 
             //Set drag event listeners for layouts
             findViewById(R.id.answer_layout).setOnDragListener(this);
             findViewById(R.id.given_layout).setOnDragListener(this);
         }
-
-
     }
 
-
-    //https://www.tutlane.com/tutorial/android/android-drag-and-drop-with-examples
-    @Override
-    public boolean onLongClick(View v){
-        ClipData.Item item = new ClipData.Item((CharSequence) v.getTag());
-        String[] mimeTypes = {ClipDescription.MIMETYPE_TEXT_PLAIN};
-        ClipData data = new ClipData(v.getTag().toString(), mimeTypes, item);
-        View.DragShadowBuilder dragshadow = new View.DragShadowBuilder(v);
-        v.startDrag(data, dragshadow, v, 0);
-
-        return true;
+    //Adapted from https://13mcec21.wordpress.com/2013/10/23/android-drag-and-drop/
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+            view.startDrag(null, shadowBuilder, view, 0);
+            view.setVisibility(View.INVISIBLE);
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    //https://www.tutlane.com/tutorial/android/android-drag-and-drop-with-examples
-    @Override
-    public boolean onDrag(View v, DragEvent event){
-        int action = event.getAction();
-
+    //Adapted from https://13mcec21.wordpress.com/2013/10/23/android-drag-and-drop/
+    public boolean onDrag(View layoutview, DragEvent dragevent) {
+        int action = dragevent.getAction();
         switch (action) {
-
             case DragEvent.ACTION_DRAG_STARTED:
-                if (event.getClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
-                    v.invalidate();
-                    return true;
-                }
-                return false;
-
+                break;
             case DragEvent.ACTION_DRAG_ENTERED:
-                v.invalidate();
-                return true;
-
-            case DragEvent.ACTION_DRAG_LOCATION:
-                return true;
-
+                break;
             case DragEvent.ACTION_DRAG_EXITED:
-                v.getBackground().clearColorFilter();
-                v.invalidate();
-                return true;
-
+                break;
             case DragEvent.ACTION_DROP:
-                v.invalidate();
+                TextView view = (TextView) dragevent.getLocalState();
+                ViewGroup owner = (ViewGroup) view.getParent();
+                owner.removeView(view);
+                LinearLayout container = (LinearLayout) layoutview;
 
-                TextView vw = (TextView) event.getLocalState();
-                ViewGroup owner = (ViewGroup) vw.getParent();
-                owner.removeView(vw);
-                LinearLayout container = (LinearLayout) v;
-                container.addView(vw);
-
-
-
-                // the same approach:
-                // if new container: 'container' is 'given_layout', just addView... order doesn't matter
-                // if new container: 'container' is 'answer_layout' then
-                // - get height of event
-                // - loop through lines in container until
-
-
-
-
-
-
-
-
-
-
-
-
-                // hooooooooooooooooooow?
-                //Try to figure out how to allow for better sorting.
-                //Current system only allows for dropping new line at end.
-
-//                if (container.getChildCount() == 0){
-//                    container.addView(vw);
-//                } else {
-//                    // int draggedY = (int) event.getY();
-//
-//                    for(int i=0;i<container.getChildCount();i++){
-//
-//                        int containerLinePos[] = new int[2];
-//                        container.getChildAt(i).getLocationOnScreen(containerLinePos);
-//
-//                        vw.setText(containerLinePos.toString());
-//
-//                        container.addView(vw);
-//
-////                        if(draggedY > containerLinePos[1] ){
-////                            System.out.println("Dragged line lower than i.");
-////                        } else {
-////                            container.addView(vw, i);
-////                        }
-//                    }
-//                }
-
-                vw.setVisibility(View.VISIBLE);
-
-                //Change line colour based on parent layout
-                LinearLayout ansL = findViewById(R.id.answer_layout);
-                LinearLayout vwParent = (LinearLayout) vw.getParent();
-                if (vwParent == ansL){
-                    vw.setBackgroundColor(Color.WHITE);
+                double yPos = dragevent.getY();
+                if(container.getChildCount() == 0) container.addView(view); // when target container is empty
+                else if (container.getChildAt(0).getY() > yPos) container.addView(view,0); // when new line is placed above highest line in container
+                else if (container.getChildAt(container.getChildCount()-1).getY() < yPos) container.addView(view); // when new line is placed below lowest line in container
+                else { // when new line is placed somewhere in the middle
+                    boolean added = false;
+                    int lineCount = 0;
+                    while(!added){
+                        if(container.getChildAt(lineCount).getY() > yPos) {
+                            container.addView(view,lineCount);
+                            added = true;
+                        } else lineCount++;
+                    }
                 }
-                else vw.setBackgroundColor(getResources().getColor(R.color.colorLine));
 
-                return true;
-
+                view.setVisibility(View.VISIBLE);
+                break;
             case DragEvent.ACTION_DRAG_ENDED:
-                v.getBackground().clearColorFilter();
-                v.invalidate();
-                return true;
-
+                break;
             default:
-                Log.e("Parson Problem Activity", "Something went wrong with the dragging and dropping");
                 break;
         }
-        return false;
+        return true;
     }
 
     public void displayProblem(ParsonsProblem pp){

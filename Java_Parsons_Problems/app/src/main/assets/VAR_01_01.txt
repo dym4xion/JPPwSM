@@ -1,5 +1,5 @@
 [prompt]
-LVL I: Arrange the lines to form a method which returns 5 plus the parameter.
+VAR LVL I: Arrange the lines to form a method which returns 5 plus the parameter.
 [valid lines]
 public static int plus5(int a){
     int b = 5;
