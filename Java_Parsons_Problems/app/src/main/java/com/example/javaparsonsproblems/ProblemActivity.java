@@ -19,16 +19,19 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
 public class ProblemActivity extends AppCompatActivity implements View.OnDragListener, View.OnTouchListener {
 
-    static ParsonsProblem instanceProblem;
-    static int numProbLines;
+    ParsonsProblem instanceProblem;
+    int numProbLines;
     int dSkill = 0;
+    int[] newScores;
 
 
     @Override
@@ -252,9 +255,18 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
                 dSkill += 1;
                 feedbackV.setText("Feedback: Congratulations! All lines are correct.");
 
-                // if level is less than 10, increment level and write new value to file
-                // if topic is IO change first line if topic is variable change second line...
-                // this might be difficult
+
+
+
+
+                Intent thisProb = getIntent();
+                Bundle topicExtras = thisProb.getExtras();
+                int skill = topicExtras.getInt("TOPIC_LEVEL");
+                if (skill + dSkill > 0 && skill + dSkill < 11) newScores = writeNewStudentLevels(skill + dSkill,this);
+                else if (skill + dSkill < 1) newScores = writeNewStudentLevels(1,this);
+                else newScores = writeNewStudentLevels(skill,this);
+
+
 
                 //hide submit and reset and show next
                 Button chk = findViewById(R.id.submit_button);
@@ -314,6 +326,8 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         else newProb.putInt("TOPIC_LEVEL", skill);
         newProb.putIntArray("VARS_MATRIX", probVars);
 
+        newProb.putIntArray("ALL_LEVELS", newScores);
+
         newProblem.putExtras(newProb);
         startActivity(newProblem);
         finish();
@@ -325,5 +339,51 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         else dSkill = 1;
 
         nextProblem(v);
+    }
+
+    public int[] writeNewStudentLevels(int newLevel ,Context context){
+
+        Intent thisProb = getIntent();
+        Bundle topicExtras = thisProb.getExtras();
+        int[] lvls = topicExtras.getIntArray("ALL_LEVELS");
+        String topic = topicExtras.getString("PROB_TOPIC");
+        switch (topic) {
+            case "IO":
+                lvls[0] = newLevel;
+                break;
+            case "VAR":
+                lvls[1] = newLevel;
+                break;
+            case "CON":
+                lvls[2] = newLevel;
+                break;
+            case "DS":
+                lvls[3] = newLevel;
+                break;
+            case "FUN":
+                lvls[4] = newLevel;
+                break;
+            case "OOP":
+                lvls[5] = newLevel;
+                break;
+        }
+
+        String outString = Integer.toString(lvls[0])+
+                            ","+Integer.toString(lvls[1])+
+                            ","+Integer.toString(lvls[2])+
+                            ","+Integer.toString(lvls[3])+
+                            ","+Integer.toString(lvls[4])+
+                            ","+Integer.toString(lvls[5]);
+
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("studentLVLs.txt", Context.MODE_PRIVATE));
+            outputStreamWriter.write(outString);
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+
+        return lvls;
     }
 }

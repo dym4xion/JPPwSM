@@ -7,6 +7,6 @@ public void printFirstInt(int x){
 }
 [distractors]
     return y;
-public static void printFirstInt(String x){
+public void printFirstInt(String x){
     System.out.println(y.charAt(1));
 [end]

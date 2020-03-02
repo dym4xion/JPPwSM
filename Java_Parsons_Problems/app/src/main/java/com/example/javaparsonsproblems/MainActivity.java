@@ -2,13 +2,21 @@ package com.example.javaparsonsproblems;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        File file = new File(getApplicationContext().getFilesDir(),"studentLVLs.txt");
+        if(!file.exists()){
+            writeStudentLevels("1,1,1,1,1,1", this);
+        } else writeStudentLevels("1,1,1,1,1,1", this);
     }
 
     public void startProblem(View view){
@@ -25,10 +37,12 @@ public class MainActivity extends AppCompatActivity {
         Bundle ex = new Bundle();
 
         if (clickedText.equals("I/O")) {
-            String studentString = readStudentLevels();
-            Student st = new Student(studentString);
+            ArrayList<String> studentLevels = readStudentLevels(this);
+            Student st = new Student(studentLevels);
             ex.putString("PROB_TOPIC", "IO");
             ex.putInt("TOPIC_LEVEL", st.ioLVL);
+            int[] allLvls = {st.ioLVL,st.varLVL,st.conLVL,st.dsLVL,st.funLVL,st.oopLVL};
+            ex.putIntArray("ALL_LEVELS", allLvls);
             int[][] varMat = getVariantsMatrix();
             ex.putIntArray("VARS_MATRIX", varMat[0]);
 
@@ -37,10 +51,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(problem);
 
         } else if (clickedText.equals("VARIABLES")) {
-            String studentString = readStudentLevels();
-            Student st = new Student(studentString);
+            ArrayList<String> studentLevels = readStudentLevels(this);
+            Student st = new Student(studentLevels);
             ex.putString("PROB_TOPIC", "VAR");
             ex.putInt("TOPIC_LEVEL", st.varLVL);
+            int[] allLvls = {st.ioLVL,st.varLVL,st.conLVL,st.dsLVL,st.funLVL,st.oopLVL};
+            ex.putIntArray("ALL_LEVELS", allLvls);
             int[][] varMat = getVariantsMatrix();
             ex.putIntArray("VARS_MATRIX", varMat[1]);
 
@@ -49,10 +65,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(problem);
 
         } else if (clickedText.equals("CONTROL STRUCTURES")) {
-            String studentString = readStudentLevels();
-            Student st = new Student(studentString);
+            ArrayList<String> studentLevels = readStudentLevels(this);
+            Student st = new Student(studentLevels);
             ex.putString("PROB_TOPIC", "CON");
             ex.putInt("TOPIC_LEVEL", st.conLVL);
+            int[] allLvls = {st.ioLVL,st.varLVL,st.conLVL,st.dsLVL,st.funLVL,st.oopLVL};
+            ex.putIntArray("ALL_LEVELS", allLvls);
             int[][] varMat = getVariantsMatrix();
             ex.putIntArray("VARS_MATRIX", varMat[2]);
 
@@ -61,10 +79,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(problem);
 
         } else if (clickedText.equals("DATA STRUCTURES")) {
-            String studentString = readStudentLevels();
-            Student st = new Student(studentString);
+            ArrayList<String> studentLevels = readStudentLevels(this);
+            Student st = new Student(studentLevels);
             ex.putString("PROB_TOPIC", "DS");
             ex.putInt("TOPIC_LEVEL", st.dsLVL);
+            int[] allLvls = {st.ioLVL,st.varLVL,st.conLVL,st.dsLVL,st.funLVL,st.oopLVL};
+            ex.putIntArray("ALL_LEVELS", allLvls);
             int[][] varMat = getVariantsMatrix();
             ex.putIntArray("VARS_MATRIX", varMat[3]);
 
@@ -73,10 +93,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(problem);
 
         } else if (clickedText.equals("FUNCTIONS")) {
-            String studentString = readStudentLevels();
-            Student st = new Student(studentString);
+            ArrayList<String> studentLevels = readStudentLevels(this);
+            Student st = new Student(studentLevels);
             ex.putString("PROB_TOPIC", "FUN");
             ex.putInt("TOPIC_LEVEL", st.funLVL);
+            int[] allLvls = {st.ioLVL,st.varLVL,st.conLVL,st.dsLVL,st.funLVL,st.oopLVL};
+            ex.putIntArray("ALL_LEVELS", allLvls);
             int[][] varMat = getVariantsMatrix();
             ex.putIntArray("VARS_MATRIX", varMat[4]);
 
@@ -85,10 +107,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(problem);
 
         } else if (clickedText.equals("OBJECT ORIENTED PRINCIPLES")) {
-            String studentString = readStudentLevels();
-            Student st = new Student(studentString);
+            ArrayList<String> studentLevels = readStudentLevels(this);
+            Student st = new Student(studentLevels);
             ex.putString("PROB_TOPIC", "OOP");
             ex.putInt("TOPIC_LEVEL", st.oopLVL);
+            int[] allLvls = {st.ioLVL,st.varLVL,st.conLVL,st.dsLVL,st.funLVL,st.oopLVL};
+            ex.putIntArray("ALL_LEVELS", allLvls);
             int[][] varMat = getVariantsMatrix();
             ex.putIntArray("VARS_MATRIX", varMat[5]);
 
@@ -97,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(problem);
         }
     }
-
 
     //should return the whole array instead
     public int[][] getVariantsMatrix(){
@@ -114,10 +137,12 @@ public class MainActivity extends AppCompatActivity {
         return lvlMatrix;
     }
 
-    public String readStudentLevels(){
+    public ArrayList<String> readStudentLevels(Context context){
+
+
         String studentString = "";
         try {
-            InputStream in = getAssets().open("_studentLVLs.txt");
+            InputStream in = context.openFileInput("studentLVLs.txt");
             int size = in.available();
             byte[] buffer = new byte[size];
             in.read(buffer);
@@ -125,6 +150,27 @@ public class MainActivity extends AppCompatActivity {
             in.close();
         } catch (Exception e){System.out.println(e);System.out.println("Failed to read student file");}
 
-        return studentString;
+        ArrayList<String> levelsList = new ArrayList<String>(Arrays.asList(studentString.split(",")));
+        return levelsList;
+    }
+
+    public void writeStudentLevels(String data, Context context){
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("studentLVLs.txt", Context.MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
+
+    public void showScores(View view){
+        Intent scores = new Intent(this, ScoresActivity.class);
+        Bundle bun = new Bundle();
+        ArrayList<String> lvls = readStudentLevels(this);
+        bun.putStringArrayList("LEVELS", lvls);
+        scores.putExtras(bun);
+        startActivity(scores);
     }
 }
