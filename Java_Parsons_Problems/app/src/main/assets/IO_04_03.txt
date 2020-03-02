@@ -1,0 +1,14 @@
+[prompt]
+Arrange a main method that uses the Scanner class to take console input integers: x first then y, and to print their sum.
+[valid lines]
+import java.util.Scanner;
+public static void main(String[] args) {
+    Scanner input = new Scanner (System.in);
+    System.out.print("Enter x: ");
+    int x = input.nextInt();
+    System.out.print("Enter y: ");
+    int y = input.nextInt();
+    System.out.println(x + y);
+}
+[distractors]
+[end]

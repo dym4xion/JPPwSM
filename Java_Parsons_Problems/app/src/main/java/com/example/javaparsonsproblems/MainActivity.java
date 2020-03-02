@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
     public int[][] getVariantsMatrix(){
         int[][] lvlMatrix = {
    //skill level:1,2,3,4,5,6,7,8,9,10
-                {3,2,1,2,1,1,1,1,1,1}, //IO
+                {3,3,3,3,1,1,1,1,1,1}, //IO
                 {1,0,0,0,0,0,0,0,0,0}, //VAR
                 {1,0,0,0,0,0,0,0,0,0}, //CON
                 {1,0,0,0,0,0,0,0,0,0}, //DS

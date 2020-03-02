@@ -1,0 +1,11 @@
+[prompt]
+Use the Integer class to define a method that returns an integer 5 greater that a string parameter expected to e a string.
+[valid lines]
+public int plus5Str(String x){
+    int y = Integer.parseInt(x);
+    return y + 5;
+}
+[distractors]
+    System.out.println(y + 5);
+    public int plus5Str(int x){
+[end]
