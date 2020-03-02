@@ -1,5 +1,5 @@
 [prompt]
-DS LVL I: Arrange the lines such that an integer ArrayList is created, an element is added to the ArrayList and the ArrayList size is printed.
+Arrange the lines such that an integer ArrayList is created, an element is added to the ArrayList and the ArrayList size is printed.
 [valid lines]
 ArrayList<Integer> l = new ArrayList<>();
 l.add(1);

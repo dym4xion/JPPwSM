@@ -1,0 +1,13 @@
+[prompt]
+Define a method which prints the reverse of a defined, string letter by letter.
+[valid lines]
+public void letterByLetter(){
+    String str = "Bird";
+    System.out.print(str.charAt(3));
+    System.out.print(str.charAt(2));
+    System.out.print(str.charAt(1));
+    System.out.print(str.charAt(0));
+}
+[distractors]
+    System.out.print(charAt(3));
+[end]

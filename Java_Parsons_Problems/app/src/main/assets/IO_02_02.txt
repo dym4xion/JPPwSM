@@ -1,0 +1,10 @@
+[prompt]
+Define a main method which defines an integer parameter and prints it.
+[valid lines]
+public static void main(String[] args){
+    int height = 175;
+    System.out.println(height);
+}
+[distractors]
+    System.out.println("height");
+[end]

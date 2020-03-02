@@ -1,5 +1,5 @@
 [prompt]
-OOP LVL I: Define a class to describe a rectangle in terms of its height and width.
+Define a class to describe a rectangle in terms of its height and width.
 [valid lines]
 public class Rectangle {
     int width; int height;

@@ -1,0 +1,13 @@
+[prompt]
+Define a method which gets user input for a double value then casts the double to an integer and prints the integer value.
+[valid lines]
+public void castAndPrint(){
+    Scanner in = new Scanner(System.in);
+    double i = in.nextDouble();
+    int j = (int) i;
+    System.out.println(j);
+}
+[distractors]
+    System.out.println(i);
+    double i = in.nextInt();
+[end]

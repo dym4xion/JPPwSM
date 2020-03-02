@@ -1,0 +1,10 @@
+[prompt]
+Describe a method which prints a prompt asking the user to input their name and prints a welcome message, assuming a Scanner has already been instantiated and is passed as a parameter.
+[valid lines]
+public void welcome(Scanner in){
+    System.out.print("Enter name: ");
+    String i = in.next();
+    System.out.println("Welcome, " + i);
+}
+[distractors]
+[end]

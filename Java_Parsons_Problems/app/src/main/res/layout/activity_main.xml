@@ -12,8 +12,13 @@
         android:layout_height="150dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
+        android:background="@color/mainButton"
+        android:fontFamily="@font/geo"
         android:onClick="startProblem"
         android:text="I/O"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:typeface="monospace"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,8 +28,13 @@
         android:layout_height="150dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
+        android:background="@color/mainButton"
+        android:fontFamily="@font/geo"
         android:onClick="startProblem"
         android:text="VARIABLES"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:typeface="monospace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,8 +44,13 @@
         android:layout_height="150dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
+        android:background="@color/mainButton"
+        android:fontFamily="@font/geo"
         android:onClick="startProblem"
         android:text="CONTROL STRUCTURES"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:typeface="monospace"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/IO_button" />
 
@@ -45,8 +60,13 @@
         android:layout_height="150dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
+        android:background="@color/mainButton"
+        android:fontFamily="@font/geo"
         android:onClick="startProblem"
         android:text="DATA STRUCTURES"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:typeface="monospace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/VAR_button" />
 
@@ -56,8 +76,13 @@
         android:layout_height="150dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
+        android:background="@color/mainButton"
+        android:fontFamily="@font/geo"
         android:onClick="startProblem"
         android:text="FUNCTIONS"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:typeface="monospace"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/CON_button" />
 
@@ -67,8 +92,13 @@
         android:layout_height="150dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
+        android:background="@color/mainButton"
+        android:fontFamily="@font/geo"
         android:onClick="startProblem"
         android:text="OBJECT ORIENTED PRINCIPLES"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        android:typeface="monospace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/DATA_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>

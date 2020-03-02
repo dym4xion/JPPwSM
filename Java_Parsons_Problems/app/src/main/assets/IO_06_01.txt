@@ -1,0 +1,13 @@
+[prompt]
+Define a method to print a string, character by character, on the same line.
+[valid lines]
+public void letterByLetter(){
+    String str = "Fish";
+    System.out.print(str.charAt(0));
+    System.out.print(str.charAt(1));
+    System.out.print(str.charAt(2));
+    System.out.print(str.charAt(3));
+}
+[distractors]
+    System.out.println(str.charAt(0));
+[end]

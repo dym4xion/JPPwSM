@@ -1,0 +1,13 @@
+[prompt]
+Define a method which adds a user input integer to an ArrayList parameter and prints the contents of the ArrayList.
+[valid lines]
+public void addAndPrint(ArrayList<Integer> al){
+    Scanner in = new Scanner(System.in);
+    int i = in.nextInt();
+    al.add(i);
+    System.out.println(al);
+}
+[distractors]
+public void addAndPrint(ArrayList al){
+    Scanner in = Scanner(System.in);
+[end]

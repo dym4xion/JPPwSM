@@ -1,7 +1,7 @@
 [prompt]
-I/O LVL III: Use the Integer class to define a method that prints the first number in an int parameter.
+Use the Integer class to define a method that prints the first number in an int parameter.
 [valid lines]
-public static void printFirstInt(int x){
+public void printFirstInt(int x){
     String y = Integer.toString(x);
     System.out.println(y.charAt(0));
 }

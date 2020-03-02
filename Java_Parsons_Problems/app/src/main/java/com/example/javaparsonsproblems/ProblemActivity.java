@@ -34,6 +34,8 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         try {
               this.getSupportActionBar().hide();
         } catch (NullPointerException e) {}
@@ -61,6 +63,9 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
 
             setContentView(R.layout.problem_layout);
             LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            TextView tlV = findViewById(R.id.topic_level_view);
+            tlV.setText(topic + " Level: " + skill);
 
             //Inflate the line_layout xml for every line in the problem
             LinearLayout giv = findViewById(R.id.given_layout);
@@ -113,6 +118,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
                 TextView view = (TextView) dragevent.getLocalState();
                 LinearLayout owner = (LinearLayout) view.getParent();
                 owner.removeView(view);
+
                 LinearLayout container = (LinearLayout) layoutview;
 
                 if(container.getId() != R.id.answer_layout && container.getId() != R.id.given_layout){
@@ -133,7 +139,6 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
                         }
                     }
                 }
-
 
                 LinearLayout ansL = findViewById(R.id.answer_layout);
                 LinearLayout vwParent = (LinearLayout) view.getParent();
@@ -211,19 +216,18 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
     public void checkAnswer(View v){
 
         LinearLayout ansLay = findViewById(R.id.answer_layout);
-        TextView promptV = findViewById(R.id.prompt_view);
-        String promptS = instanceProblem.prompt;
-
+        TextView feedbackV = findViewById(R.id.feedback_view);
+        ViewGroup.LayoutParams params = feedbackV.getLayoutParams();
+        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        feedbackV.setLayoutParams(params);
 
         //Check correct number of lines are used
         if (ansLay.getChildCount() < instanceProblem.validLines.size()){
             dSkill -= 1;
-            String newPrompt = promptS + "\n\nFEEDBACK: THE SOLUTION REQUIRES THE USE OF MORE LINES.";
-            promptV.setText(newPrompt);
+            feedbackV.setText("Feedback: The solution requires the use of more lines.");
         } else if (ansLay.getChildCount() > instanceProblem.validLines.size()) {
             dSkill -= 1;
-            String newPrompt = promptS + "\n\nFEEDBACK: THE SOLUTION REQUIRES FEWER LINES.";
-            promptV.setText(newPrompt);
+            feedbackV.setText("Feedback: The solution requires fewer lines.");
         } else{
 
             int correctCount = 0;
@@ -246,11 +250,11 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
             //Attributes message based on answer attempt with correct number of lines.
             if (correctCount == instanceProblem.validLines.size()){
                 dSkill += 1;
-                String newPrompt = promptS + "\n\nFEEDBACK: CONGRATULATIONS! ALL LINES ARE CORRECT.";
-                promptV.setText(newPrompt);
+                feedbackV.setText("Feedback: Congratulations! All lines are correct.");
 
                 // if level is less than 10, increment level and write new value to file
-
+                // if topic is IO change first line if topic is variable change second line...
+                // this might be difficult
 
                 //hide submit and reset and show next
                 Button chk = findViewById(R.id.submit_button);
@@ -260,14 +264,17 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
                 Button nxt = findViewById(R.id.next_button);
                 nxt.setVisibility(View.VISIBLE);
 
+                Button skp = findViewById(R.id.skip_button);
+                skp.setVisibility(View.INVISIBLE);
+                Button skpB = findViewById(R.id.skip_back_button);
+                skpB.setVisibility(View.INVISIBLE);
+
             } else if (distractorCount > 0){
                 dSkill -= 1;
-                String newPrompt = promptS + "\n\nFEEDBACK: A DISTRACTOR LINE HAS BEEN USED. TRY A DIFFERENT LINE.";
-                promptV.setText(newPrompt);
+                feedbackV.setText("Feedback: A distractor line has been used. Try a different line");
             } else {
                 dSkill -= 1;
-                String newPrompt = promptS + "\n\nFEEDBACK: CORRECT LINES USED IN WRONG ORDER.";
-                promptV.setText(newPrompt);
+                feedbackV.setText("Feedback: Correct lines used in wrong order.");
             }
         }
     }
@@ -284,6 +291,9 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
             givLay.addView(l);
             numAnsLines -= 1;
         }
+
+        TextView fbV = findViewById(R.id.feedback_view);
+        fbV.setText("Feedback:");
     }
 
     public void nextProblem(View v){
@@ -307,5 +317,13 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         newProblem.putExtras(newProb);
         startActivity(newProblem);
         finish();
+    }
+
+    public void skipProblem(View v){
+        Button b = (Button) v;
+        if(b.getText().equals("SKIP Back (debug)")) dSkill = -1;
+        else dSkill = 1;
+
+        nextProblem(v);
     }
 }

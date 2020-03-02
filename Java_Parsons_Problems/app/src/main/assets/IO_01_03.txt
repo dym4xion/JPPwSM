@@ -1,5 +1,5 @@
 [prompt]
-I/O LVL I: Arrange lines to define a functions that prints a string parameter.
+Arrange lines to define a functions that prints a string parameter.
 [valid lines]
 public void printMe(String me){
     System.out.println(me);

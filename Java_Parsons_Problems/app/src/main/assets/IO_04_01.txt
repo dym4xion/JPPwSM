@@ -1,5 +1,5 @@
 [prompt]
-I/O LVL IV: Arrange a Main class whose method uses the Scanner class to take console input and print it out.
+Arrange a Main class whose method uses the Scanner class to take console input and print it out.
 [valid lines]
 import java.util.Scanner;
 class Main {

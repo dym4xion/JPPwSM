@@ -1,5 +1,5 @@
 [prompt]
-I/O LVL II: Order the sequence to define an int value after defining a string value then print the two values concatenated.
+Order the sequence to define an int value after defining a string value then print the two values concatenated.
 [valid lines]
 String j = "My favourite number is: ";
 int i = 5;
