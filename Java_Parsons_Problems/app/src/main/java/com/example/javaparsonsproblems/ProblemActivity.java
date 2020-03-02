@@ -6,6 +6,7 @@ import android.content.ClipDescription;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -112,12 +114,14 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         int action = dragevent.getAction();
         switch (action) {
             case DragEvent.ACTION_DRAG_STARTED:
+                MediaPlayer up = MediaPlayer.create(ProblemActivity.this,R.raw.up); up.start();
                 break;
             case DragEvent.ACTION_DRAG_ENTERED:
                 break;
             case DragEvent.ACTION_DRAG_EXITED:
                 break;
             case DragEvent.ACTION_DROP:
+                MediaPlayer down = MediaPlayer.create(ProblemActivity.this,R.raw.down); down.start();
                 TextView view = (TextView) dragevent.getLocalState();
                 LinearLayout owner = (LinearLayout) view.getParent();
                 owner.removeView(view);
@@ -226,9 +230,11 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
 
         //Check correct number of lines are used
         if (ansLay.getChildCount() < instanceProblem.validLines.size()){
+            MediaPlayer incorrect = MediaPlayer.create(ProblemActivity.this,R.raw.incorrect); incorrect.start();
             dSkill -= 1;
             feedbackV.setText("Feedback: The solution requires the use of more lines.");
         } else if (ansLay.getChildCount() > instanceProblem.validLines.size()) {
+            MediaPlayer incorrect = MediaPlayer.create(ProblemActivity.this,R.raw.incorrect); incorrect.start();
             dSkill -= 1;
             feedbackV.setText("Feedback: The solution requires fewer lines.");
         } else{
@@ -252,11 +258,9 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
 
             //Attributes message based on answer attempt with correct number of lines.
             if (correctCount == instanceProblem.validLines.size()){
+                MediaPlayer correct = MediaPlayer.create(ProblemActivity.this,R.raw.correct); correct.start();
                 dSkill += 1;
                 feedbackV.setText("Feedback: Congratulations! All lines are correct.");
-
-
-
 
 
                 Intent thisProb = getIntent();
@@ -282,9 +286,11 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
                 skpB.setVisibility(View.INVISIBLE);
 
             } else if (distractorCount > 0){
+                MediaPlayer incorrect = MediaPlayer.create(ProblemActivity.this,R.raw.incorrect); incorrect.start();
                 dSkill -= 1;
                 feedbackV.setText("Feedback: A distractor line has been used. Try a different line");
             } else {
+                MediaPlayer incorrect = MediaPlayer.create(ProblemActivity.this,R.raw.incorrect); incorrect.start();
                 dSkill -= 1;
                 feedbackV.setText("Feedback: Correct lines used in wrong order.");
             }
@@ -292,6 +298,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
     }
 
     public void resetLines(View v){
+        MediaPlayer click = MediaPlayer.create(ProblemActivity.this,R.raw.click); click.start();
         LinearLayout ansLay = findViewById(R.id.answer_layout);
         LinearLayout givLay = findViewById(R.id.given_layout);
 
@@ -309,6 +316,8 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
     }
 
     public void nextProblem(View v){
+        MediaPlayer click = MediaPlayer.create(ProblemActivity.this,R.raw.click); click.start();
+
         Intent newProblem = new Intent(this, ProblemActivity.class);
         newProblem.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -325,6 +334,10 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         else if (skill + dSkill < 1) newProb.putInt("TOPIC_LEVEL", 1);
         else newProb.putInt("TOPIC_LEVEL", skill);
         newProb.putIntArray("VARS_MATRIX", probVars);
+
+        if (skill + dSkill > 0 && skill + dSkill < 11) newScores = writeNewStudentLevels(skill + dSkill,this);
+        else if (skill + dSkill < 1) newScores = writeNewStudentLevels(1,this);
+        else newScores = writeNewStudentLevels(skill,this);
 
         newProb.putIntArray("ALL_LEVELS", newScores);
 
@@ -385,5 +398,11 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         }
 
         return lvls;
+    }
+
+    @Override
+    public void onBackPressed() {
+        MediaPlayer click = MediaPlayer.create(ProblemActivity.this,R.raw.click); click.start();
+        super.onBackPressed();
     }
 }

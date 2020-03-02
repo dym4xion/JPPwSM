@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -40,6 +41,7 @@ public class ScoresActivity extends AppCompatActivity {
     }
 
     public void resetScores(View view){
+        MediaPlayer woosh = MediaPlayer.create(ScoresActivity.this,R.raw.woosh); woosh.start();
         writeStudentLevels("1,1,1,1,1,1",this);
         TextView io = findViewById(R.id.io_score_view);
         io.setText("I/O: 1");
@@ -64,5 +66,11 @@ public class ScoresActivity extends AppCompatActivity {
         catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        MediaPlayer click = MediaPlayer.create(ScoresActivity.this,R.raw.click); click.start();
+        super.onBackPressed();
     }
 }

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,10 +29,11 @@ public class MainActivity extends AppCompatActivity {
         File file = new File(getApplicationContext().getFilesDir(),"studentLVLs.txt");
         if(!file.exists()){
             writeStudentLevels("1,1,1,1,1,1", this);
-        } else writeStudentLevels("1,1,1,1,1,1", this);
+        }
     }
 
     public void startProblem(View view){
+        MediaPlayer click = MediaPlayer.create(MainActivity.this,R.raw.click); click.start();
         Button clicked = (Button) view;
         String clickedText = clicked.getText().toString();
         Bundle ex = new Bundle();
@@ -122,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //should return the whole array instead
     public int[][] getVariantsMatrix(){
         int[][] lvlMatrix = {
    //skill level:1,2,3,4,5,6,7,8,9,10
@@ -137,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         return lvlMatrix;
     }
 
+    // Adapted from: https://www.dev2qa.com/android-read-write-internal-storage-file-example/
     public ArrayList<String> readStudentLevels(Context context){
 
 
@@ -154,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
         return levelsList;
     }
 
+    // Adapted from: https://www.dev2qa.com/android-read-write-internal-storage-file-example/
     public void writeStudentLevels(String data, Context context){
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("studentLVLs.txt", Context.MODE_PRIVATE));
@@ -166,11 +169,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void showScores(View view){
+        MediaPlayer click = MediaPlayer.create(MainActivity.this,R.raw.click); click.start();
         Intent scores = new Intent(this, ScoresActivity.class);
         Bundle bun = new Bundle();
         ArrayList<String> lvls = readStudentLevels(this);
         bun.putStringArrayList("LEVELS", lvls);
         scores.putExtras(bun);
         startActivity(scores);
+    }
+
+    @Override
+    public void onBackPressed() {
+        MediaPlayer click = MediaPlayer.create(MainActivity.this,R.raw.click); click.start();
+        super.onBackPressed();
     }
 }
