@@ -1,0 +1,11 @@
+[prompt]
+Define a method to print a the second character of a string if the string is of length 3 or otherwise print "String too big!".
+[valid lines]
+public void printMiddle(String s){
+    if (s.length() == 3) System.out.println(s.charAt(1));
+    else System.out.println("String too big!");
+}
+[distractors]
+public String printMiddle(String s){
+    if (s.length() = 3) System.out.println(s.charAt(1));
+[end]

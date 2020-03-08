@@ -1,0 +1,12 @@
+[prompt]
+Use String formatting to define a method that takes input string and int and uses string formatting to return a string containing both the string and input.
+[valid lines]
+public String inputInfo(){
+    Scanner in = new Scanner(System.in);
+    String name = in.next();
+    int age = in.nextInt();
+    String i = String.format("%s is %d years old", name, age);
+    return i;
+}
+[distractors]
+[end]

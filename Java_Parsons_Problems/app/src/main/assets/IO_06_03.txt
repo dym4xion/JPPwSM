@@ -1,0 +1,14 @@
+[prompt]
+Define a method to print the first and fourth characters of a defined string prefixed with a prompt
+[valid lines]
+public void firstAnd4th(){
+    String str = "Java";
+    System.out.print("First character: ");
+    System.out.println(str.charAt(0));
+    System.out.print("Fourth character: ");
+    System.out.println(str.charAt(3));
+}
+[distractors]
+    System.out.println(str.charAt(4));
+    System.out.println(str.charAt(1));
+[end]

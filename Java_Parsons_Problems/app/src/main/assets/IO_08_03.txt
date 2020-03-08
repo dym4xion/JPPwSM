@@ -1,0 +1,12 @@
+[prompt]
+Define a method which gets user input for a double value then prints the mean of the input value and a parameter value
+[valid lines]
+public void printMean(double j){
+    Scanner in = new Scanner(System.in);
+    double i = in.nextDouble();
+    double k = (i + j) / 2;
+    System.out.println(k);
+}
+[distractors]
+public void printMean(){
+[end]
