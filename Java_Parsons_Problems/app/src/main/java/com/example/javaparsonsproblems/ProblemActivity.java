@@ -34,7 +34,10 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
     int numProbLines;
     int dSkill = 0;
     int[] newScores;
-
+    MediaPlayer upSound;
+    MediaPlayer downSound;
+    MediaPlayer incorrectSound;
+    MediaPlayer clickSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +98,13 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
             //Set drag event listeners for layouts
             findViewById(R.id.answer_layout).setOnDragListener(this);
             findViewById(R.id.given_layout).setOnDragListener(this);
+
+            //create MediaPlayers once, on create for better efficiency?
+            // they are called with soundSound.start(); when needed
+            upSound = MediaPlayer.create(ProblemActivity.this,R.raw.up);
+            downSound = MediaPlayer.create(ProblemActivity.this,R.raw.down);
+            incorrectSound = MediaPlayer.create(ProblemActivity.this,R.raw.incorrect);
+            clickSound = MediaPlayer.create(ProblemActivity.this,R.raw.click);
         }
     }
 
@@ -114,14 +124,14 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         int action = dragevent.getAction();
         switch (action) {
             case DragEvent.ACTION_DRAG_STARTED:
-                MediaPlayer up = MediaPlayer.create(ProblemActivity.this,R.raw.up); up.start();
+                upSound.start();
                 break;
             case DragEvent.ACTION_DRAG_ENTERED:
                 break;
             case DragEvent.ACTION_DRAG_EXITED:
                 break;
             case DragEvent.ACTION_DROP:
-                MediaPlayer down = MediaPlayer.create(ProblemActivity.this,R.raw.down); down.start();
+                downSound.start();
                 TextView view = (TextView) dragevent.getLocalState();
                 LinearLayout owner = (LinearLayout) view.getParent();
                 owner.removeView(view);
@@ -230,11 +240,11 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
 
         //Check correct number of lines are used
         if (ansLay.getChildCount() < instanceProblem.validLines.size()){
-            MediaPlayer incorrect = MediaPlayer.create(ProblemActivity.this,R.raw.incorrect); incorrect.start();
+            incorrectSound.start();
             dSkill -= 1;
             feedbackV.setText("Feedback: The solution requires the use of more lines.");
         } else if (ansLay.getChildCount() > instanceProblem.validLines.size()) {
-            MediaPlayer incorrect = MediaPlayer.create(ProblemActivity.this,R.raw.incorrect); incorrect.start();
+            incorrectSound.start();
             dSkill -= 1;
             feedbackV.setText("Feedback: The solution requires fewer lines.");
         } else{
@@ -286,11 +296,11 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
                 skpB.setVisibility(View.INVISIBLE);
 
             } else if (distractorCount > 0){
-                MediaPlayer incorrect = MediaPlayer.create(ProblemActivity.this,R.raw.incorrect); incorrect.start();
+                incorrectSound.start();
                 dSkill -= 1;
                 feedbackV.setText("Feedback: A distractor line has been used. Try a different line");
             } else {
-                MediaPlayer incorrect = MediaPlayer.create(ProblemActivity.this,R.raw.incorrect); incorrect.start();
+                incorrectSound.start();
                 dSkill -= 1;
                 feedbackV.setText("Feedback: Correct lines used in wrong order.");
             }
@@ -298,7 +308,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
     }
 
     public void resetLines(View v){
-        MediaPlayer click = MediaPlayer.create(ProblemActivity.this,R.raw.click); click.start();
+        clickSound.start();
         LinearLayout ansLay = findViewById(R.id.answer_layout);
         LinearLayout givLay = findViewById(R.id.given_layout);
 
@@ -316,7 +326,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
     }
 
     public void nextProblem(View v){
-        MediaPlayer click = MediaPlayer.create(ProblemActivity.this,R.raw.click); click.start();
+        clickSound.start();
 
         Intent newProblem = new Intent(this, ProblemActivity.class);
         newProblem.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -402,7 +412,7 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
 
     @Override
     public void onBackPressed() {
-        MediaPlayer click = MediaPlayer.create(ProblemActivity.this,R.raw.click); click.start();
+        clickSound.start();
         super.onBackPressed();
     }
 }
