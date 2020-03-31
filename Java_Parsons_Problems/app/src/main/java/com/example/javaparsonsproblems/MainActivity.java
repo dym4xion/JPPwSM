@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         String clickedText = clicked.getText().toString();
         Bundle ex = new Bundle();
 
-        if (clickedText.equals("I/O")) {
+        if (clickedText.equals("INPUT/OUTPUT")) {
             ArrayList<String> studentLevels = readStudentLevels(this);
             Student st = new Student(studentLevels);
             ex.putString("PROB_TOPIC", "IO");
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             problem.putExtras(ex);
             startActivity(problem);
 
-        } else if (clickedText.equals("OBJECT ORIENTED PRINCIPLES")) {
+        } else if (clickedText.equals("OBJECT-ORIENTED PRINCIPLES")) {
             ArrayList<String> studentLevels = readStudentLevels(this);
             Student st = new Student(studentLevels);
             ex.putString("PROB_TOPIC", "OOP");
@@ -140,8 +140,6 @@ public class MainActivity extends AppCompatActivity {
 
     // Adapted from: https://www.dev2qa.com/android-read-write-internal-storage-file-example/
     public ArrayList<String> readStudentLevels(Context context){
-
-
         String studentString = "";
         try {
             InputStream in = context.openFileInput("studentLVLs.txt");

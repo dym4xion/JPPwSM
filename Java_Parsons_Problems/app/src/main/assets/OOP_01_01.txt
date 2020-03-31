@@ -7,6 +7,6 @@ public class Rectangle {
     width = w; height = h;}
 }
 [distractors]
-public static Rectangle (int w, int h){
-w = width; height = h;
+    public static Rectangle (int w, int h){
+    w = width; height = h;
 [end]

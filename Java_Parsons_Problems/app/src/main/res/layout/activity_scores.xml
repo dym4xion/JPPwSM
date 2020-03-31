@@ -13,60 +13,96 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:fontFamily="sans-serif-condensed"
+        android:background="#FFA387"
+        android:fontFamily="monospace"
         android:padding="10dp"
+        android:shadowColor="#9A9A9A"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="0"
         android:text="TextView"
-        android:textSize="24sp" />
+        android:textAlignment="center"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/var_score_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:fontFamily="sans-serif-condensed"
+        android:background="#FFA387"
+        android:fontFamily="monospace"
         android:padding="10dp"
+        android:shadowColor="#9A9A9A"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="0"
         android:text="TextView"
-        android:textSize="24sp" />
+        android:textAlignment="center"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/con_score_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:fontFamily="sans-serif-condensed"
+        android:background="#FFA387"
+        android:fontFamily="monospace"
         android:padding="10dp"
+        android:shadowColor="#9A9A9A"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="0"
         android:text="TextView"
-        android:textSize="24sp" />
+        android:textAlignment="center"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/ds_score_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:fontFamily="sans-serif-condensed"
+        android:background="#FFA387"
+        android:fontFamily="monospace"
         android:padding="10dp"
+        android:shadowColor="#9A9A9A"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="0"
         android:text="TextView"
-        android:textSize="24sp" />
+        android:textAlignment="center"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/fun_score_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:fontFamily="sans-serif-condensed"
+        android:background="#FFA387"
+        android:fontFamily="monospace"
         android:padding="10dp"
+        android:shadowColor="#9A9A9A"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="0"
         android:text="TextView"
-        android:textSize="24sp" />
+        android:textAlignment="center"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/oop_score_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:fontFamily="sans-serif-condensed"
+        android:background="#FFA387"
+        android:fontFamily="monospace"
         android:padding="10dp"
+        android:shadowColor="#9A9A9A"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="0"
         android:text="TextView"
-        android:textSize="24sp" />
+        android:textAlignment="center"
+        android:textSize="14sp" />
 
     <Button
         android:id="@+id/button"

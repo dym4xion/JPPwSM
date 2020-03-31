@@ -27,34 +27,41 @@ public class ScoresActivity extends AppCompatActivity {
         ArrayList<String> lvls = bun.getStringArrayList("LEVELS");
         // set scores text
         TextView io = findViewById(R.id.io_score_view);
-        io.setText("I/O: " + lvls.get(0));
+        String ioS = String.format("%1$-" + 28 + "s", "Input/Output_").replace(' ', '=').replace('_',' ');
+        io.setText(ioS + " " + lvls.get(0));
         TextView var = findViewById(R.id.var_score_view);
-        var.setText("Variables: " + lvls.get(1));
+        String vS = String.format("%1$-" + 28 + "s", "Variables_").replace(' ', '=').replace('_',' ');
+        var.setText(vS + " " + lvls.get(1));
         TextView con = findViewById(R.id.con_score_view);
-        con.setText("Control Structures: " + lvls.get(2));
+        String cS = String.format("%1$-" + 28 + "s", "Control_Structures_").replace(' ', '=').replace('_',' ');
+        con.setText(cS + " " + lvls.get(2));
         TextView ds = findViewById(R.id.ds_score_view);
-        ds.setText("Data Structures: " + lvls.get(3));
+        String dS = String.format("%1$-" + 28 + "s", "Data_Structures_").replace(' ', '=').replace('_',' ');
+        ds.setText(dS +" " + lvls.get(3));
         TextView fun = findViewById(R.id.fun_score_view);
-        fun.setText("Functions: " + lvls.get(4));
+        String fS = String.format("%1$-" + 28 + "s", "Functions_").replace(' ', '=').replace('_',' ');
+        fun.setText(fS + " " + lvls.get(4));
         TextView oop = findViewById(R.id.oop_score_view);
-        oop.setText("Object Oriented Principles: " + lvls.get(5));
+        String oS = String.format("%1$-" + 28 + "s", "Object-Oriented_Principles_").replace(' ', '=').replace('_',' ');
+        oop.setText(oS + " " + lvls.get(5));
+
     }
 
     public void resetScores(View view){
         MediaPlayer woosh = MediaPlayer.create(ScoresActivity.this,R.raw.woosh); woosh.start();
         writeStudentLevels("1,1,1,1,1,1",this);
         TextView io = findViewById(R.id.io_score_view);
-        io.setText("I/O: 1");
+        io.setText(String.format("%1$-" + 28 + "s", "Input/Output_").replace(' ', '=').replace('_',' ') + " 1");
         TextView var = findViewById(R.id.var_score_view);
-        var.setText("Variables: 1");
+        var.setText(String.format("%1$-" + 28 + "s", "Variables_").replace(' ', '=').replace('_',' ') + " 1");
         TextView con = findViewById(R.id.con_score_view);
-        con.setText("Control Structures: 1");
+        con.setText(String.format("%1$-" + 28 + "s", "Control_Structures_").replace(' ', '=').replace('_',' ') + " 1");
         TextView ds = findViewById(R.id.ds_score_view);
-        ds.setText("Data Structures: 1");
+        ds.setText(String.format("%1$-" + 28 + "s", "Data_Structures_").replace(' ', '=').replace('_',' ') + " 1");
         TextView fun = findViewById(R.id.fun_score_view);
-        fun.setText("Functions: 1");
+        fun.setText(String.format("%1$-" + 28 + "s", "Functions_").replace(' ', '=').replace('_',' ') + " 1");
         TextView oop = findViewById(R.id.oop_score_view);
-        oop.setText("Object Oriented Principles: 1");
+        oop.setText(String.format("%1$-" + 28 + "s", "Object-Oriented_Principles_").replace(' ', '=').replace('_',' ') + " 1");
     }
 
     public void writeStudentLevels(String data, Context context){
