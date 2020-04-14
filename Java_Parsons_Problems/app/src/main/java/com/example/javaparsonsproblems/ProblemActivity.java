@@ -28,6 +28,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+/**
+ * Class to handle the delivery of each Parson's problem.
+ */
 public class ProblemActivity extends AppCompatActivity implements View.OnDragListener, View.OnTouchListener {
 
     ParsonsProblem instanceProblem;
@@ -39,15 +42,19 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
     MediaPlayer incorrectSound;
     MediaPlayer clickSound;
 
+    /**
+     * Initiates each problem by fetching appropriate content view, tagging all lines as draggable,
+     * displaying 'NEXT' button as invisible, initialising media players for sound, and setting the
+     * text for each of the problem components.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         try {
               this.getSupportActionBar().hide();
         } catch (NullPointerException e) {}
-
 
         Intent thisProb = getIntent();
         Bundle topicExtras = thisProb.getExtras();
@@ -108,7 +115,14 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         }
     }
 
-    //Adapted from https://13mcec21.wordpress.com/2013/10/23/android-drag-and-drop/
+    /**
+     * Method to trigger the line dragging mechanism once a line has been touched. Adapted from:
+     * https://13mcec21.wordpress.com/2013/10/23/android-drag-and-drop/
+     * @param view Line being dragged.
+     * @param motionEvent What is the motion event when line is touched. Starts drag when motion
+     *                    event is ACTION_DOWN.
+     * @return True if drag is initiated.
+     */
     public boolean onTouch(View view, MotionEvent motionEvent) {
         if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
@@ -119,7 +133,13 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         }
     }
 
-    //Adapted from https://13mcec21.wordpress.com/2013/10/23/android-drag-and-drop/
+    /**
+     * Method to facilitate the dragging of one line from one layout container to another. Adapted
+     * from: https://13mcec21.wordpress.com/2013/10/23/android-drag-and-drop/
+     * @param layoutview Layout below which a line will be dropped.
+     * @param dragevent Describes the drag event occurring as the line is being dragged.
+     * @return Should always return true.
+     */
     public boolean onDrag(View layoutview, DragEvent dragevent) {
         int action = dragevent.getAction();
         switch (action) {
@@ -175,39 +195,43 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         return true;
     }
 
+    /**
+     * Displays the data comprising a Parson's problem onto GUI components.
+     * @param pp The Parson's problem to be displayed.
+     */
     public void displayProblem(ParsonsProblem pp){
-        //Set prompt text
+        // set prompt text
         TextView promptV = (TextView) findViewById(R.id.prompt_view);
         promptV.setText(pp.prompt);
 
+        // collate all lines and shuffle them
         ArrayList<String> allLines = new ArrayList<>();
         allLines.addAll(pp.validLines);
         allLines.addAll(pp.distractors);
         Collections.shuffle(allLines);
 
+        // set the text for the lines in the given lines layout as each of the problem lines.
         LinearLayout givLay = findViewById(R.id.given_layout);
         for(int i=0; i<numProbLines; i++){
             TextView l = (TextView) givLay.getChildAt(i);
             l.setText(allLines.get(i));
         }
-
-
-        // try to figure out how to add each line dynamically
-//        TextView lowestLV = lineV;
-//        for (String line : allLines){
-//            lowestLV.setText(line);
-//
-//            TextView newLine = new TextView(this);
-//            newLine.setText(line);
-//            lowestLV = newLine;
-//        }
-
     }
 
-    //This takes the topic string (IO,VAR,CON,DATA,FUN,OOP), user skill level for topic
-    // and the number of problems of that difficulty for that topic.
+    /**
+     * Method to build the filename for a problem for a given set of problem parameters, then
+     * to read that problem from file, from the assets folder in order to produce the Parson's
+     * problem data.
+     * @param topic The topic of the problem to be fetched.
+     * @param skill The skill level of the problem to be fetched.
+     * @param numOfProblems The number of variations of problems for that topic/skill combination
+     * @return The ParsonProblem object describing a random problem of the given topic/skill
+     * combination.
+     */
     public ParsonsProblem generateParsonsProblem(String topic, int skill, int numOfProblems){
-        String skillLvl = "0" + Integer.toString(skill);
+        String skillLvl;
+        if(skill < 10) skillLvl = "0" + Integer.toString(skill);
+        else skillLvl = Integer.toString(skill);
 
         Random r = new Random();
         System.out.println(numOfProblems);
@@ -230,6 +254,10 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         return pp;
     }
 
+    /**
+     * Method to check the correctness of the solution provided in the answer space.
+     * @param v The 'SUBMIT' answer button.
+     */
     public void checkAnswer(View v){
 
         LinearLayout ansLay = findViewById(R.id.answer_layout);
@@ -307,6 +335,10 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         }
     }
 
+    /**
+     * Method to send all lines in answer space to given lines space.
+     * @param v The 'RESET' button.
+     */
     public void resetLines(View v){
         clickSound.start();
         LinearLayout ansLay = findViewById(R.id.answer_layout);
@@ -325,6 +357,10 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         fbV.setText("Feedback:");
     }
 
+    /**
+     * Method to trigger starting the next problem after successful completion of a problem.
+     * @param v The 'NEXT' button.
+     */
     public void nextProblem(View v){
         clickSound.start();
 
@@ -356,6 +392,11 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         finish();
     }
 
+    /**
+     * Method used to skip through problems by increasing or decreasing topic difficulty. For
+     * debugging purposes.
+     * @param v Skip forward and skip back buttons.
+     */
     public void skipProblem(View v){
         Button b = (Button) v;
         if(b.getText().equals("SKIP Back (debug)")) dSkill = -1;
@@ -364,7 +405,13 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
         nextProblem(v);
     }
 
-    public int[] writeNewStudentLevels(int newLevel ,Context context){
+    /**
+     * Method to write to the student levels file the new skill levels
+     * @param newLevel The new skill level for the current problem topic.
+     * @param context The context to which the file is written.
+     * @return The new student levels array.
+     */
+    public int[] writeNewStudentLevels(int newLevel, Context context){
 
         Intent thisProb = getIntent();
         Bundle topicExtras = thisProb.getExtras();

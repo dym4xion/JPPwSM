@@ -14,14 +14,18 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.lang.reflect.Method;
 
+/**
+ * Class for the 'Home Screen' activity. The screen the user is presented with on launching the app.
+ */
 public class MainActivity extends AppCompatActivity {
 
-
+    /**
+     * Initialises the 'Home Screen' activity by setting the content view and fetching the
+     * studentLVLs.txt file or creating it if does not exist.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method which starts a problem for a given topic.
+     * @param view The clicked start problem button.
+     */
     public void startProblem(View view){
         MediaPlayer click = MediaPlayer.create(MainActivity.this,R.raw.click); click.start();
         Button clicked = (Button) view;
@@ -39,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle ex = new Bundle();
 
         if (clickedText.equals("INPUT/OUTPUT")) {
-            ArrayList<String> studentLevels = readStudentLevels(this);
+            String studentLevels = readStudentLevels(this);
             Student st = new Student(studentLevels);
             ex.putString("PROB_TOPIC", "IO");
             ex.putInt("TOPIC_LEVEL", st.ioLVL);
@@ -53,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(problem);
 
         } else if (clickedText.equals("VARIABLES")) {
-            ArrayList<String> studentLevels = readStudentLevels(this);
+            String studentLevels = readStudentLevels(this);
             Student st = new Student(studentLevels);
             ex.putString("PROB_TOPIC", "VAR");
             ex.putInt("TOPIC_LEVEL", st.varLVL);
@@ -67,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(problem);
 
         } else if (clickedText.equals("CONTROL STRUCTURES")) {
-            ArrayList<String> studentLevels = readStudentLevels(this);
+            String studentLevels = readStudentLevels(this);
             Student st = new Student(studentLevels);
             ex.putString("PROB_TOPIC", "CON");
             ex.putInt("TOPIC_LEVEL", st.conLVL);
@@ -81,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(problem);
 
         } else if (clickedText.equals("DATA STRUCTURES")) {
-            ArrayList<String> studentLevels = readStudentLevels(this);
+            String studentLevels = readStudentLevels(this);
             Student st = new Student(studentLevels);
             ex.putString("PROB_TOPIC", "DS");
             ex.putInt("TOPIC_LEVEL", st.dsLVL);
@@ -95,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(problem);
 
         } else if (clickedText.equals("FUNCTIONS")) {
-            ArrayList<String> studentLevels = readStudentLevels(this);
+            String studentLevels = readStudentLevels(this);
             Student st = new Student(studentLevels);
             ex.putString("PROB_TOPIC", "FUN");
             ex.putInt("TOPIC_LEVEL", st.funLVL);
@@ -109,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(problem);
 
         } else if (clickedText.equals("OBJECT-ORIENTED PRINCIPLES")) {
-            ArrayList<String> studentLevels = readStudentLevels(this);
+            String studentLevels = readStudentLevels(this);
             Student st = new Student(studentLevels);
             ex.putString("PROB_TOPIC", "OOP");
             ex.putInt("TOPIC_LEVEL", st.oopLVL);
@@ -124,6 +132,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Maintains the number of variations of problems for any given topic and skill level. Needed
+     * for the purpose of retrieving a random question for any given topic and skill level
+     * combination.
+     * @return 2-D matrix describing the number of variations of problems for any given
+     * [topic] and [skill level].
+     */
     public int[][] getVariantsMatrix(){
         int[][] lvlMatrix = {
    //skill level:1,2,3,4,5,6,7,8,9,10
@@ -138,8 +153,12 @@ public class MainActivity extends AppCompatActivity {
         return lvlMatrix;
     }
 
-    // Adapted from: https://www.dev2qa.com/android-read-write-internal-storage-file-example/
-    public ArrayList<String> readStudentLevels(Context context){
+    /**
+     * Method to read the student's topic scores from file. Adapted from https://www.dev2qa.com/android-read-write-internal-storage-file-example/
+     * @param context The context from which the the file is read.
+     * @return The string content of the file containing the student levels.
+     */
+    public String readStudentLevels(Context context){
         String studentString = "";
         try {
             InputStream in = context.openFileInput("studentLVLs.txt");
@@ -150,11 +169,17 @@ public class MainActivity extends AppCompatActivity {
             in.close();
         } catch (Exception e){System.out.println(e);System.out.println("Failed to read student file");}
 
-        ArrayList<String> levelsList = new ArrayList<String>(Arrays.asList(studentString.split(",")));
-        return levelsList;
+
+        return studentString;
     }
 
-    // Adapted from: https://www.dev2qa.com/android-read-write-internal-storage-file-example/
+    /**
+     * Method to write the student's scores to file. Adapted from: https://www.dev2qa.com/android-read-write-internal-storage-file-example/
+     * @param data The string representation of the students scores for each topic. Comma (,)
+     *             separated values for each topic progressing in the order as in activity scores
+     *             layout.
+     * @param context The context to which the the file is written.
+     */
     public void writeStudentLevels(String data, Context context){
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("studentLVLs.txt", Context.MODE_PRIVATE));
@@ -166,12 +191,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Method to launch the 'Scores' activity.
+     * @param view The 'SCORES' button on the home screen.
+     */
     public void showScores(View view){
         MediaPlayer click = MediaPlayer.create(MainActivity.this,R.raw.click); click.start();
         Intent scores = new Intent(this, ScoresActivity.class);
         Bundle bun = new Bundle();
-        ArrayList<String> lvls = readStudentLevels(this);
-        bun.putStringArrayList("LEVELS", lvls);
+        String stuLvls = readStudentLevels(this);
+        Student stu = new Student(stuLvls);
+        int[] lvls = {stu.ioLVL, stu.varLVL, stu.conLVL, stu.dsLVL, stu.funLVL, stu.oopLVL};
+        bun.putIntArray("LEVELS", lvls);
         scores.putExtras(bun);
         startActivity(scores);
     }

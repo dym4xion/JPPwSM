@@ -1,5 +1,5 @@
 [prompt]
-Define a method which prints the first string in a string ArrayList, and a main class to test the method.
+Define in one 'Main' class, a method which prints the first string in a string ArrayList, after a main method is defined to test the printFirst method. Assume Scanner and ArrayList classes are already imported.
 [valid lines]
 import java.util.Scanner;
 import java.util.ArrayList;
