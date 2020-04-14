@@ -1,0 +1,13 @@
+[prompt]
+Define a method that takes an integer parameter, and a console input string and prints the string however many times the parameter integer is.
+[valid lines]
+public void printATimes(int a){
+    Scanner input = new Scanner (System.in);
+    String s = input.next();
+    for(int i = 0; i < a; i++){
+      System.out.println(s);}
+}
+[distractors]
+    for(i = 0; i < a; i++){
+    String s = input.nextInt();
+[end]

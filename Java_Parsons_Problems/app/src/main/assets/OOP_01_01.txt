@@ -1,13 +1,12 @@
 [prompt]
-LVL I: Define a class to describe a rectangle in terms of its height and width.
+Define a class to describe a rectangle in terms of its height and width.
 [valid lines]
 public class Rectangle {
     int width; int height;
     public Rectangle (int w, int h){
-    width = w; height = h;
-    }
+    width = w; height = h;}
 }
 [distractors]
-public static Rectangle (int w, int h){
-w = width; height = h;
+    public static Rectangle (int w, int h){
+    w = width; height = h;
 [end]

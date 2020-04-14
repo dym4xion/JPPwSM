@@ -1,0 +1,11 @@
+[prompt]
+Use String formatting to define a method that prints a double parameter with a string prefix.
+[valid lines]
+public void printTheDouble(double a){
+    String i = String.format("The double parameter is: %f", a);
+    System.out.println(i);
+}
+[distractors]
+    String i = String.format("The double parameter is: ", a);
+    return i;
+[end]

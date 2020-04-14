@@ -1,0 +1,11 @@
+[prompt]
+Use the Double class to define a method that converts a string parameter to a double and returns true if it is greater than 3.14.
+[valid lines]
+public static Boolean greaterThanPI(String x){
+    double y = Double.parseDouble(x);
+    if (y > 3.14) return true;
+    else return false;
+}
+[distractors]
+    int y = Double.parseDouble(x);
+[end]

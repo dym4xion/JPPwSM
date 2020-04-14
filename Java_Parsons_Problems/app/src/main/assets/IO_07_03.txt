@@ -1,0 +1,13 @@
+[prompt]
+Define a method defines which prints "ME" by concatenating the first characters of 2 different strings.
+[valid lines]
+public static void printMe(){
+    String m = "Melting";
+    String e = "Eggs";
+    String me = "";
+    me += m.charAt(0);
+    me += e.charAt(0);
+    System.out.println(me);
+}
+[distractors]
+[end]

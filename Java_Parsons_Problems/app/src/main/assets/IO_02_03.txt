@@ -1,0 +1,11 @@
+[prompt]
+Define a main method which defines an integer parameter and prints its square.
+[valid lines]
+public static void main(String[] args){
+    int a = 22;
+    int square = a * a;
+    System.out.println(square);
+}
+[distractors]
+    System.out.println(a);
+[end]

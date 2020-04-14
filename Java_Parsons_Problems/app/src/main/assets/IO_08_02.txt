@@ -1,0 +1,12 @@
+[prompt]
+Define a method which gets user input for a double value then prints its square.
+[valid lines]
+public void printSquare(){
+    Scanner in = new Scanner(System.in);
+    double i = in.nextDouble();
+    i *= i;
+    System.out.println(i);
+}
+[distractors]
+    double i = in.next();
+[end]

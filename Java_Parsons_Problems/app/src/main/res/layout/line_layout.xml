@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/line_view"
+    android:layout_width="match_parent"
+    android:layout_height="45dip"
+    android:layout_margin="3dip"
+    android:background="@color/colorLine"
+    android:fontFamily="@font/ubuntu_mono"
+    android:gravity="center|fill"
+    android:lineSpacingExtra="0sp"
+    android:paddingLeft="8dip"
+    android:text="LINE"
+    android:textColor="@color/colorLineText"
+    android:textSize="14sp">
+
+</TextView>

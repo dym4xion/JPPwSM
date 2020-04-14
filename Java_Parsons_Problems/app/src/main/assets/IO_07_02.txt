@@ -1,0 +1,12 @@
+[prompt]
+Define a method which prints the last 3 characters of a predefined string.
+[valid lines]
+public void lastThree(){
+    String str = "Surprise";
+    System.out.print(str.charAt(7));
+    System.out.print(str.charAt(6));
+    System.out.print(str.charAt(5));
+}
+[distractors]
+    System.out.print(charAt(4));
+[end]

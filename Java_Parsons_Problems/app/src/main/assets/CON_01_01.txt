@@ -1,5 +1,12 @@
 [prompt]
-Arrange the lines such that it describes a method which prints 'High' if its parameter is greater than 10 or 'Low' otherwise.
+Arrange the lines such that it describes a method which prints 'High' if its integer parameter is greater than 10 or 'Low' otherwise.
 [valid lines]
+public void highOrLow(int x){
+    if (x > 10) {
+        System.out.println("High");
+    } else { System.out.println("Low");}
+}
 [distractors]
+public String highOrLow(int x){
+    return x;
 [end]

@@ -1,0 +1,11 @@
+[prompt]
+Define a method which adds an integer parameter to an ArrayList parameter and prints the new sum of the ArrayList using string formatting.
+[valid lines]
+public void printArrSum(ArrayList<Integer> al, int a){
+    al.add(a);
+    int sum = 0;
+    for(Integer i : al) sum += i;
+    System.out.println(String.format("The ArrayList sum is: %d", sum));
+}
+[distractors]
+[end]

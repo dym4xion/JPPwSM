@@ -1,0 +1,13 @@
+[prompt]
+Arrange a Main class whose method uses the Scanner class to take console input and print it out.
+[valid lines]
+import java.util.Scanner;
+class Main {
+  public static void main(String[] args) {
+    Scanner input = new Scanner (System.in);
+    String i = input.next();
+    System.out.println(i);}
+}
+[distractors]
+import java.util.Scanner
+[end]

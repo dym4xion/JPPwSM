@@ -1,0 +1,10 @@
+[prompt]
+Use String formatting to define a method that prints a string containing string and integer parameters.
+[valid lines]
+public void info(String name, int age){
+    String i = String.format("%s is %d years old", name, age);
+    System.out.println(i);
+}
+[distractors]
+    String i = String.format("%s is %d years old", age, name);
+[end]
