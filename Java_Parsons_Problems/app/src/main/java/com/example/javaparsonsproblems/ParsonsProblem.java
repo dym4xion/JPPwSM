@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * A class for parsing the marked up Parson's problem text sting. Ultimately creating a
+ * A class for parsing the marked up Parson's problem text string. Ultimately creating a
  * ParsonsProblem object.
  */
 public class ParsonsProblem {
@@ -23,7 +23,7 @@ public class ParsonsProblem {
 
     /**
      * Method to parse the text describing Parson's problems which also sets instance variables.
-     * @param in
+     * @param in Parson's problem text string.
      */
     public void ParseParsonTXT(String in){
 
