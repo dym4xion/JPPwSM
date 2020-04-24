@@ -7,9 +7,7 @@ Repository for Final Year Project that uses Parsons Problems in the context of t
 
 ### Defining Problems   
 
-Problems should be marked up in a file using the filename format XX\_YY\_ZZ.txt where XX is the topic abbriviation, YY is the problem level (between 1 and 10 inclusive) and ZZ is the number of that variation of problem for the topic/level combination. See the assets folder for examples.
-
-Problem difficulty level should be prefixed with '0' regardless of its level. I.e. if the difficulty of the problem is level 9 the file should be XX\_09\_ZZ.txt and if the difficulty is level 10 the file should be XX\_010\_ZZ.txt
+Problems should be marked up in a file using the filename format XX\_YY\_ZZ.txt where XX is the topic abbriviation, YY is the problem level (between 01 and 10 inclusive) and ZZ is the number of that variation of problem for the topic/level combination. See the the problems in the assets folder of the source code for examples of how problems should be marked-up.
 
 In the file marking up the problem, the problem prompt should follow the [prompt] tag on a singular line, on the immediate next line after the tag. Following the [valid lines] tag the lines that form the solution to the problem should be written each on a new line as they wish to be displayed, in the correct order. Any distractor lines should be marked up similarly after the [distractors] tag but the order is not important here. IT IS IMPORTANT THAT THERE ARE NO CHARACTERS THAT FOLLOW THE LAST CHARACTER OF THE [end] TAG, INCLUDING ANY EMPTY LINES OR SPACES.
 
