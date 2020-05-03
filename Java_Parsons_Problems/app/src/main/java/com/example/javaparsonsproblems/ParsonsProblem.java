@@ -10,37 +10,56 @@ import java.util.Scanner;
 public class ParsonsProblem {
 
     String prompt;
-    ArrayList<String> validLines = new ArrayList<>();
-    ArrayList<String> distractors = new ArrayList<>();
+    ArrayList<String> validLines;
+    ArrayList<String> distractors;
 
     /**
      * Class constructor for the ParsonsProblem class.
      * @param in The string describing the Parson's problem after being read from file.
      */
     public ParsonsProblem(String in){
-        ParseParsonTXT(in);
-    }
-
-    /**
-     * Method to parse the text describing Parson's problems which also sets instance variables.
-     * @param in Parson's problem text string.
-     */
-    public void ParseParsonTXT(String in){
-
         try{
             Scanner input = new Scanner(in);
 
             while (input.hasNextLine()){
                 String nxtLine = input.nextLine();
-                if(nxtLine.equals("[prompt]")) prompt = input.nextLine();
+                if(nxtLine.equals("[prompt]")) {
+                    String check = input.nextLine();
+                    if(check.equals("[valid lines]")) {
+                        prompt = "";
+                        validLines = new ArrayList<>();
+                        boolean disReached = false;
+                        while(!disReached){
+                            String currLine = input.nextLine();
+
+                            if(currLine.equals("[distractors]")){
+                                distractors = new ArrayList<>();
+                                boolean endReached = false;
+                                while(!endReached){
+                                    String distractorLine = input.nextLine();
+                                    if(distractorLine.equals("[end]")) endReached = true;
+                                    else distractors.add(distractorLine);
+                                }
+                                disReached = true;
+                            }
+                            else validLines.add(currLine);
+                        }
+                    } else prompt = check;
+                }
+
+                /* Some messiness and repetition here to handle different cases of how a problem
+                 may be incorrectly marked up. Simplification may be possible by looking into
+                 different ways problems can be marked up (JSON, XML) but would require overhaul
+                 of how problems are currently stored in file.*/
 
                 if(nxtLine.equals("[valid lines]")) {
+                    validLines = new ArrayList<>();
                     boolean disReached = false;
                     while(!disReached){
                         String currLine = input.nextLine();
 
                         if(currLine.equals("[distractors]")){
-
+                            distractors = new ArrayList<>();
                             boolean endReached = false;
                             while(!endReached){
                                 String distractorLine = input.nextLine();
