@@ -77,17 +77,18 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
                     instanceProblem.distractors.size();
 
             setContentView(R.layout.problem_layout);
-            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            TextView tlV = findViewById(R.id.topic_level_view);
-            tlV.setText(topic + " Level: " + skill);
 
             //Inflate the line_layout xml for every line in the problem
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             LinearLayout giv = findViewById(R.id.given_layout);
             for(int i = 0; i < numProbLines; i++){
                 TextView line = (TextView) inflater.inflate(R.layout.line_layout, giv, false);
                 giv.addView(line);
             }
+
+            // set barrier text
+            TextView tlV = findViewById(R.id.topic_level_view);
+            tlV.setText(topic + " Level: " + skill);
 
             Button nxt = findViewById(R.id.next_button);
             nxt.setVisibility(View.INVISIBLE);
@@ -406,7 +407,9 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
     }
 
     /**
-     * Method to write to the student levels file the new skill levels
+     * Method to write to the student levels file the new skill levels. Also attributes bonus
+     * skill points to related other topics (as indicated in the problem prompt) if problem is
+     * solved on the first attempt.
      * @param newLevel The new skill level for the current problem topic.
      * @param context The context to which the file is written.
      * @return The new student levels array.
@@ -437,6 +440,17 @@ public class ProblemActivity extends AppCompatActivity implements View.OnDragLis
                 lvls[5] = newLevel;
                 break;
         }
+
+        // this procedure adds bonus skill points if problem is solved on first attempt
+        if(dSkill == 1){
+            if(instanceProblem.prompt.contains("#IO")) lvls[0] += 1;
+            if(instanceProblem.prompt.contains("#VAR")) lvls[1] += 1;
+            if(instanceProblem.prompt.contains("#CON")) lvls[2] += 1;
+            if(instanceProblem.prompt.contains("#DS")) lvls[3] += 1;
+            if(instanceProblem.prompt.contains("#FUN")) lvls[4] += 1;
+            if(instanceProblem.prompt.contains("#OOP")) lvls[5] += 1;
+        }
+
 
         String outString = Integer.toString(lvls[0])+
                             ","+Integer.toString(lvls[1])+

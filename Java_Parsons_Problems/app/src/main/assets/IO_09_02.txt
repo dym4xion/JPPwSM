@@ -1,5 +1,5 @@
 [prompt]
-Use String formatting to define a method that takes input string and int and uses string formatting to return a string containing both the string and input.
+Use String formatting to define a method that first takes an input String and then an int and uses string formatting to return a string containing both the string and input.
 [valid lines]
 public String inputInfo(){
     Scanner in = new Scanner(System.in);
