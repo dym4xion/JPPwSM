@@ -1,11 +1,8 @@
-# JPPwSM   
-## Java Parsons Problems with Student Modelling   
+# Java Parsons Problems with Student Modelling   
 
 Repository for Final Year Project that uses Parsons Problems in the context of the Java programming language as a learning aid in developing a knowledge of how to effectively solve programming problems in Java. An attempt to model the student's undertanding is made in order to present the user pedagogically appropriate problems.
 
-## Conventions   
-
-### Defining Problems   
+## Conventions When Defining Problems 
 
 Problems should be marked up in a file using the filename format XX\_YY\_ZZ.txt where XX is the topic abbriviation, YY is the problem level (between 01 and 10 inclusive) and ZZ is the number of that variation of problem for the topic/level combination. See the the problems in the assets folder of the source code for examples of how problems should be marked-up.
 

@@ -1,16 +1,13 @@
 [prompt]
-Define in one 'Main' class, a method which prints the first string in a string ArrayList, after a main method is defined to test the printFirst method. Assume Scanner and ArrayList classes are already imported.
+Define a main method in a main class that adds an element to an ArrayList and prints the first ArrayList element.
 [valid lines]
-import java.util.Scanner;
-import java.util.ArrayList;
 class Main {
   public static void main(String[] args) {
     ArrayList<String> i = new ArrayList<String>();
     i.add("hello");
-    printFirst(i);}
-public static void printFirst(ArrayList<String> strAL){
-    String s = strAL.get(0);
-    System.out.println(s);}
+    String s = i.get(0);
+    System.out.println(s);
+  }
 }
 [distractors]
 [end]

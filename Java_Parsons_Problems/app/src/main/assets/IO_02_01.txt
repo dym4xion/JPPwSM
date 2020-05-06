@@ -1,5 +1,5 @@
 [prompt]
-Order the sequence to define an int value after defining a string value then print the two values concatenated.
+Order the sequence to define an int value after defining a string value then print the two values concatenated. Bonus Skill: #VAR
 [valid lines]
 String j = "My favourite number is: ";
 int i = 5;
